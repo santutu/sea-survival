@@ -18,6 +18,12 @@ namespace sea_survival.Scripts
             _rb = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            
+            // 기본 공격 컴포넌트 추가 (없는 경우)
+            if (GetComponent<DefaultAttack>() == null)
+            {
+                gameObject.AddComponent<DefaultAttack>();
+            }
         }
 
         private void Update()

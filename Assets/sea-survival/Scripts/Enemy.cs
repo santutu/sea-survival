@@ -6,16 +6,21 @@ namespace sea_survival.Scripts
     public class Enemy : MonoBehaviour
     {
         public float moveSpeed = 3f;
+        public float maxHealth = 100f;
+        public float currentHealth;
 
         private Player Player => Player.Ins;
         private Rigidbody2D _rb;
         private SpriteRenderer _spriteRenderer;
+        
+        [SerializeField] public GameObject hitEffectPrefab;
 
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            currentHealth = maxHealth;
         }
 
 
@@ -40,6 +45,29 @@ namespace sea_survival.Scripts
             Vector2 direction = Player.transform.position - transform.position;
             direction.Normalize();
             _rb.linearVelocity = direction * moveSpeed;
+        }
+        
+        public void TakeDamage(float damage)
+        {
+            currentHealth -= damage;
+            
+            // 피격 이펙트 생성
+            if (hitEffectPrefab != null)
+            {
+                Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+            }
+            
+            // 체력이 0 이하면 적 제거
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
+        }
+        
+        private void Die()
+        {
+            // 여기에 적이 죽을 때 로직 추가 (경험치 드롭 등)
+            Destroy(gameObject);
         }
     }
 }
