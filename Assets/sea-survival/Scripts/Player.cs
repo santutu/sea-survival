@@ -1,5 +1,6 @@
 ﻿using Santutu.Core.Base.Runtime.Singletons;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace sea_survival.Scripts
 {
@@ -11,7 +12,8 @@ namespace sea_survival.Scripts
         private Animator _animator;
         private SpriteRenderer _spriteRenderer;
 
-        private Vector2 _moveDirection;
+        public Vector2 InputVec { get; private set; }
+        public Vector2 MoveDirection { get; private set; }
 
         protected override void Awake()
         {
@@ -19,19 +21,14 @@ namespace sea_survival.Scripts
             _rb = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-
-            // 기본 공격 컴포넌트 추가 (없는 경우)
-            if (GetComponent<DefaultAttack>() == null)
-            {
-                gameObject.AddComponent<DefaultAttack>();
-            }
         }
 
         private void Update()
         {
             float moveX = Input.GetAxisRaw("Horizontal");
             float moveY = Input.GetAxisRaw("Vertical");
-            _moveDirection = new Vector2(moveX, moveY).normalized;
+            InputVec = new Vector2(moveX, moveY);
+            MoveDirection = InputVec.normalized;
 
             if (moveX != 0)
             {
@@ -39,14 +36,14 @@ namespace sea_survival.Scripts
             }
 
 
-            var isMoving = _moveDirection.magnitude > 0;
+            var isMoving = MoveDirection.magnitude > 0;
             _animator.SetBool(AnimState.IsMoving, isMoving);
             _animator.SetBool(AnimState.IsIdle, !isMoving);
         }
 
         private void FixedUpdate()
         {
-            Vector2 nextVec = _moveDirection * moveSpeed * Time.fixedDeltaTime;
+            Vector2 nextVec = MoveDirection * moveSpeed * Time.fixedDeltaTime;
             _rb.MovePosition(_rb.position + nextVec);
         }
     }
