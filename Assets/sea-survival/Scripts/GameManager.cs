@@ -11,8 +11,12 @@ namespace sea_survival.Scripts
 
         [SerializeField] private bool initializeGame = false;
 
+        [SerializeField] private Texture2D defaultCursor;
+
         private void Start()
         {
+            Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+
             if (initializeGame)
             {
                 EnemySpawner.Ins.enabled = false;
