@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8386467566235229016}
   - component: {fileID: 2999627559973655795}
   m_Layer: 0
-  m_Name: monster 1
+  m_Name: enemy 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,9 +102,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.65
-  health: 30
-  damage: 10
-  experienceValue: 10
 --- !u!50 &2999627559973655795
 Rigidbody2D:
   serializedVersion: 5

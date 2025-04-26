@@ -31814,13 +31814,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1.5
-  maxHealth: 100
-  currentHealth: 0
-  experiencePoints: 0
-  level: 1
-  experienceToNextLevel: 100
-  healthBar: {fileID: 0}
-  expBar: {fileID: 0}
 --- !u!70 &1915972160
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -31915,10 +31908,6 @@ MonoBehaviour:
   minSpawnDistance: 5
   maxSpawnDistance: 6
   maxEnemies: 50
-  difficultyScalingFactor: 0.1
-  healthIncreasePerMinute: 5
-  damageIncreasePerMinute: 1
-  spawnRateIncreasePerMinute: 0.1
 --- !u!4 &2005441206
 Transform:
   m_ObjectHideFlags: 0
