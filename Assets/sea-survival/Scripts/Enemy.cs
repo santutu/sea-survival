@@ -1,4 +1,5 @@
 using System.Collections;
+using Santutu.Modules.UI.Runtime.FloatingTexts;
 using UnityEngine;
 
 namespace sea_survival.Scripts
@@ -12,7 +13,7 @@ namespace sea_survival.Scripts
         private Player Player => Player.Ins;
         private Rigidbody2D _rb;
         private SpriteRenderer _spriteRenderer;
-        
+
         [SerializeField] public GameObject hitEffectPrefab;
 
 
@@ -46,24 +47,26 @@ namespace sea_survival.Scripts
             direction.Normalize();
             _rb.linearVelocity = direction * moveSpeed;
         }
-        
+
         public void TakeDamage(float damage)
         {
             currentHealth -= damage;
-            
+
+            FloatingDamageTextManager.Ins.Instantiate((int)damage, transform.position);
+
             // 피격 이펙트 생성
             if (hitEffectPrefab != null)
             {
                 Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
             }
-            
+
             // 체력이 0 이하면 적 제거
             if (currentHealth <= 0)
             {
                 Die();
             }
         }
-        
+
         private void Die()
         {
             // 여기에 적이 죽을 때 로직 추가 (경험치 드롭 등)

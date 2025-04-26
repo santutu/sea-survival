@@ -1,4 +1,4 @@
-﻿using sea_survival.Scripts.Singletons;
+﻿using Santutu.Core.Base.Runtime.Singletons;
 using UnityEngine;
 
 namespace sea_survival.Scripts
@@ -13,12 +13,13 @@ namespace sea_survival.Scripts
 
         private Vector2 _moveDirection;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _rb = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            
+
             // 기본 공격 컴포넌트 추가 (없는 경우)
             if (GetComponent<DefaultAttack>() == null)
             {
@@ -39,8 +40,8 @@ namespace sea_survival.Scripts
 
 
             var isMoving = _moveDirection.magnitude > 0;
-            _animator.SetBool("IsMoving", isMoving);
-            _animator.SetBool("IsIdle", !isMoving);
+            _animator.SetBool(AnimState.IsMoving, isMoving);
+            _animator.SetBool(AnimState.IsIdle, !isMoving);
         }
 
         private void FixedUpdate()

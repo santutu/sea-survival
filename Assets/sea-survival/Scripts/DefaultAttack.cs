@@ -157,12 +157,17 @@ namespace sea_survival.Scripts
         
         private Vector2 GetAttackDirection()
         {
-            // 마우스 위치를 기반으로 공격 방향 결정
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = 0;
+            // 플레이어가 바라보는 방향으로 공격 방향 결정
+            if (_player == null) return Vector2.right; // 기본값으로 오른쪽
             
-            Vector2 direction = (mousePosition - transform.position).normalized;
-            return direction;
+            SpriteRenderer playerSprite = _player.GetComponent<SpriteRenderer>();
+            if (playerSprite != null)
+            {
+                // flipX가 true면 왼쪽, false면 오른쪽
+                return playerSprite.flipX ? Vector2.left : Vector2.right;
+            }
+            
+            return Vector2.right; // 기본값
         }
         
         // 디버그용 기즈모 그리기 (에디터에서만 보임)
