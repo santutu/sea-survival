@@ -1,0 +1,17 @@
+# Add directories or file patterns to ignore during indexing (e.g. foo/ or *.csv)
+
+# 모든 파일 무시
+
+*
+
+  
+
+# .cs 파일은 무시하지 않음
+
+!*.cs
+
+  
+
+# .cs 파일이 들어있는 디렉토리도 무시하지 않음
+
+!*/
