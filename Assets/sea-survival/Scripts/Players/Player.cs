@@ -1,8 +1,7 @@
 ﻿using Santutu.Core.Base.Runtime.Singletons;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace sea_survival.Scripts
+namespace sea_survival.Scripts.Players
 {
     public class Player : SingletonMonoBehaviour<Player>
     {

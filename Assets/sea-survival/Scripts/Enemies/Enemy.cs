@@ -1,10 +1,11 @@
-using System.Collections;
 using Santutu.Modules.UI.Runtime.FloatingTexts;
+using sea_survival.Scripts.Contracts;
+using sea_survival.Scripts.Players;
 using UnityEngine;
 
-namespace sea_survival.Scripts
+namespace sea_survival.Scripts.Enemies
 {
-    public class Enemy : MonoBehaviour
+    public class Enemy : MonoBehaviour, IDamageable
     {
         public float moveSpeed = 3f;
         public float maxHealth = 100f;
@@ -20,14 +21,12 @@ namespace sea_survival.Scripts
 
         [SerializeField] public GameObject hitEffectPrefab;
 
-
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             currentHealth = maxHealth;
         }
-
 
         private void Update()
         {
@@ -52,6 +51,7 @@ namespace sea_survival.Scripts
             _rb.linearVelocity = direction * moveSpeed;
         }
 
+        // IDamageable 인터페이스 구현
         public void TakeDamage(float damage)
         {
             currentHealth -= damage;

@@ -1,4 +1,5 @@
 ﻿using System;
+using sea_survival.Scripts.Players;
 using UnityEngine;
 
 namespace sea_survival.Scripts

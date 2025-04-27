@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using sea_survival.Scripts.Players;
+using UnityEngine;
 
-namespace sea_survival.Scripts
+namespace sea_survival.Scripts.Enemies
 {
     public class Exp : MonoBehaviour
     {

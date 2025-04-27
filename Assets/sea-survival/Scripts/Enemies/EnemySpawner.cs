@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using Santutu.Core.Base.Runtime.Singletons;
+using sea_survival.Scripts.Players;
 using UnityEngine;
 
-namespace sea_survival.Scripts
+namespace sea_survival.Scripts.Enemies
 {
     public class EnemySpawner : SingletonMonoBehaviour<EnemySpawner>
     {

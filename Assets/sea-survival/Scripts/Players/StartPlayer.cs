@@ -1,8 +1,9 @@
-﻿using System;
-using Santutu.Core.Base.Runtime.Singletons;
+﻿using Santutu.Core.Base.Runtime.Singletons;
+using sea_survival.Scripts.Enemies;
+using sea_survival.Scripts.Weapons;
 using UnityEngine;
 
-namespace sea_survival.Scripts
+namespace sea_survival.Scripts.Players
 {
     public class StartPlayer : SingletonMonoBehaviour<StartPlayer>
     {

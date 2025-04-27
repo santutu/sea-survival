@@ -1,5 +1,6 @@
 ﻿using System;
 using Santutu.Core.Base.Runtime.Singletons;
+using sea_survival.Scripts.Players;
 using UnityEngine;
 
 namespace sea_survival.Scripts

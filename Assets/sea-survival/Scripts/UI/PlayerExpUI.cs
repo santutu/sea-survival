@@ -1,3 +1,4 @@
+using sea_survival.Scripts.Players;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;

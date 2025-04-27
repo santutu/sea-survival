@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Santutu.Core.Base.Runtime.Singletons;
+using Santutu.Core.Extensions.Runtime.UnityExtensions;
+using sea_survival.Scripts.Enemies;
+using sea_survival.Scripts.Players;
 using UnityEngine;
 
 namespace sea_survival.Scripts
@@ -13,6 +17,9 @@ namespace sea_survival.Scripts
 
         [SerializeField] private Texture2D defaultCursor;
 
+
+        [SerializeField] private List<GameObject> warmUpPrefabs = new();
+
         private void Start()
         {
             Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
@@ -25,6 +32,8 @@ namespace sea_survival.Scripts
                 mainUI.SetActive(true);
                 inGameUI.SetActive(false);
             }
+
+            WarmUp();
         }
 
         public void StartGame()
@@ -41,6 +50,16 @@ namespace sea_survival.Scripts
 #else
             Application.Quit();
 #endif
+        }
+
+        private void WarmUp()
+        {
+            foreach (var prefab in warmUpPrefabs)
+            {
+                var newGo = prefab.Instantiate();
+                newGo.SetActive(false);
+                newGo.DestroySelf();
+            }
         }
     }
 }

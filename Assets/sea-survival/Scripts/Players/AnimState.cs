@@ -1,4 +1,4 @@
-﻿namespace sea_survival.Scripts
+﻿namespace sea_survival.Scripts.Players
 {
     public static class AnimState
     {
