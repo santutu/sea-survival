@@ -15,6 +15,15 @@ MonoBehaviour:
   pages:
   - items:
     - globalId:
+        globalObjectIdString: GlobalObjectId_V1-1-5b8e86ea37eda6c47a1c530afeb2039b-102900000-0
+      _typeString: UnityEditor.SceneAsset, UnityEditor.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      _obj: {fileID: 102900000, guid: 5b8e86ea37eda6c47a1c530afeb2039b, type: 3}
+      isSceneGameObject: 0
+      isFolder: 0
+      isAsset: 1
+      _id: 1042077449
+    - globalId:
         globalObjectIdString: GlobalObjectId_V1-2-99c9720ab356a0642a771bea13969a05-1011539445-0
       _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
@@ -32,15 +41,6 @@ MonoBehaviour:
       isFolder: 1
       isAsset: 0
       _id: 1045778610
-    - globalId:
-        globalObjectIdString: GlobalObjectId_V1-1-99c9720ab356a0642a771bea13969a05-102900000-0
-      _typeString: UnityEditor.SceneAsset, UnityEditor.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      _obj: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
-      isSceneGameObject: 0
-      isFolder: 0
-      isAsset: 1
-      _id: 1037259106
     - globalId:
         globalObjectIdString: GlobalObjectId_V1-1-845f66ad50bb25547b3a558222ec38de-102900000-0
       _typeString: UnityEditor.DefaultAsset, UnityEditor.CoreModule, Version=0.0.0.0,
@@ -68,6 +68,15 @@ MonoBehaviour:
       isFolder: 0
       isAsset: 0
       _id: 1042760833
+    - globalId:
+        globalObjectIdString: GlobalObjectId_V1-1-99c9720ab356a0642a771bea13969a05-102900000-0
+      _typeString: UnityEditor.SceneAsset, UnityEditor.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      _obj: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
+      isSceneGameObject: 0
+      isFolder: 0
+      isAsset: 1
+      _id: 1065350300
     name: Page 1
     _id: 1057889651
   - items: []

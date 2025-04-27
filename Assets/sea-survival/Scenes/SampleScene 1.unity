@@ -51453,7 +51453,7 @@ MonoBehaviour:
   mainMenuButton: {fileID: 328210439}
   battleStage: {fileID: 1011539447}
   restStage: {fileID: 1011539446}
-  portalPrefab: {fileID: 851312189652236469, guid: f2f30c1540ac47048832589d4814be08, type: 3}
+  portalPrefab: {fileID: 2804807014951903108, guid: f2f30c1540ac47048832589d4814be08, type: 3}
 --- !u!4 &1011539449
 Transform:
   m_ObjectHideFlags: 0
