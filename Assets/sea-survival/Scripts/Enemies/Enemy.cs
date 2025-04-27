@@ -62,7 +62,7 @@ namespace sea_survival.Scripts.Enemies
                     _canAttack = true;
                 }
             }
-            
+
             // 넉백 타이머 처리
             if (_isKnockedBack)
             {
@@ -77,7 +77,7 @@ namespace sea_survival.Scripts.Enemies
         private void FixedUpdate()
         {
             if (Player == null) return;
-            
+
             // 넉백 상태일 때는 플레이어 추적을 중단
             if (_isKnockedBack) return;
 
@@ -158,12 +158,12 @@ namespace sea_survival.Scripts.Enemies
                 if (_canAttack)
                 {
                     ApplyDamageToPlayer(player);
-                    
+
                     // 공격 쿨다운 설정
                     _canAttack = false;
                     _attackTimer = attackCooldown;
                 }
-                
+
                 // 적이 밀려나도록 처리 (항상 적용)
                 ApplyKnockbackToSelf(player.transform.position);
             }
@@ -179,12 +179,11 @@ namespace sea_survival.Scripts.Enemies
         // 자신을 플레이어로부터 밀쳐내는 함수
         private void ApplyKnockbackToSelf(Vector3 playerPosition)
         {
-            Debug.Log("knock");
             Vector2 knockbackDirection = (transform.position - playerPosition).normalized;
-            
+
             // 속도를 직접 설정하여 넉백 효과 적용
             _rb.linearVelocity = knockbackDirection * knockbackForce;
-            
+
             // 넉백 상태 설정
             _isKnockedBack = true;
             _knockbackTimer = knockbackDuration;

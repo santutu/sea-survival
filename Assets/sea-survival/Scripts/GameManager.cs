@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Santutu.Core.Base.Runtime.Singletons;
 using Santutu.Core.Extensions.Runtime.UnityExtensions;
 using sea_survival.Scripts.Enemies;
@@ -28,19 +29,18 @@ namespace sea_survival.Scripts
             {
                 EnemySpawner.Ins.enabled = false;
                 Player.Ins.enabled = false;
-                StartPlayer.Ins.enabled = false;
                 mainUI.SetActive(true);
                 inGameUI.SetActive(false);
             }
 
-            WarmUp();
+            WarmUp().Forget();
         }
 
         public void StartGame()
         {
             mainUI.SetActive(false);
             inGameUI.SetActive(true);
-            StartPlayer.Ins.enabled = true;
+            FallingCinematicManager.Ins.StartCinematic();
         }
 
         public void EndGame()
@@ -52,14 +52,18 @@ namespace sea_survival.Scripts
 #endif
         }
 
-        private void WarmUp()
+        private async UniTask WarmUp()
         {
+            var parent = new GameObject();
+            parent.SetActive(false);
             foreach (var prefab in warmUpPrefabs)
             {
                 var newGo = prefab.Instantiate();
-                newGo.SetActive(false);
-                newGo.DestroySelf();
+                newGo.transform.SetParent(parent.transform);
             }
+
+            await UniTask.DelayFrame(5);
+            parent.DestroySelf();
         }
     }
 }

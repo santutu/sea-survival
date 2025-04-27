@@ -16,7 +16,7 @@ namespace sea_survival.Scripts.Stages
         public override void OnEnter()
         {
             base.OnEnter();
-            Debug.Log($"휴식 단계 진입: 스테이지 {StageSystem.CurrentStageLv}");
+            Debug.Log($"휴식 단계 진입: 스테이지 {StageManager.CurrentStageLv}");
             
             // 체력 회복 코루틴 시작
             if (_healCoroutine != null)
@@ -62,7 +62,7 @@ namespace sea_survival.Scripts.Stages
             // 휴식 시간이 끝나면 다음 단계로 전환
             Debug.Log("휴식 시간 종료");
             // 추가 작업이 끝나면 다음 단계로 이동
-            StageSystem.NextStage();
+            StageManager.NextStage();
         }
     }
 } 

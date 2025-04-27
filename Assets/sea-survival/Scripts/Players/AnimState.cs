@@ -1,9 +1,9 @@
 ﻿namespace sea_survival.Scripts.Players
 {
-    public static class AnimState
+    public enum AnimState
     {
-        public const string IsIdle = "IsIdle";
-        public const string IsMoving = "IsMoving";
-        public const string IsFallin = "IsFalling";
+        IsIdle,
+        IsMoving,
+        IsFalling
     }
 }

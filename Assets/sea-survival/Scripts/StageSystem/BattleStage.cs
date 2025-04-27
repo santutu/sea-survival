@@ -15,7 +15,7 @@ namespace sea_survival.Scripts.Stages
         public override void OnEnter()
         {
             base.OnEnter();
-            Debug.Log($"전투 단계 시작: 스테이지 {StageSystem.CurrentStageLv}");
+            Debug.Log($"전투 단계 시작: 스테이지 {StageManager.CurrentStageLv}");
             
             // 적 스폰 증가
             AdjustEnemySpawn();
@@ -50,7 +50,7 @@ namespace sea_survival.Scripts.Stages
             // 여기서 EnemySpawner에 접근하여 스폰 설정 조정
             // 예: EnemySpawner.Ins.SetSpawnRate(baseSpawnRate * Mathf.Pow(enemySpawnMultiplier, StageSystem.CurrentStageLv - 1));
             
-            Debug.Log($"스테이지 {StageSystem.CurrentStageLv}에 맞춰 적 스폰 조정됨");
+            Debug.Log($"스테이지 {StageManager.CurrentStageLv}에 맞춰 적 스폰 조정됨");
         }
         
         // 스테이지 타이머 코루틴
@@ -81,7 +81,7 @@ namespace sea_survival.Scripts.Stages
             // 예: StageSystem.Ins.ChangeState(RestStageManager.Ins.GetStage());
             
             // 임시 로직: 다음 스테이지로 바로 진행
-            StageSystem.NextStage();
+            StageManager.NextStage();
         }
     }
 } 

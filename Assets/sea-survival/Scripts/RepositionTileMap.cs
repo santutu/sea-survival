@@ -15,6 +15,11 @@ namespace sea_survival.Scripts
                 return;
             }
 
+            if (!other.gameObject.activeInHierarchy)
+            {
+                return;
+            }
+
             Vector3 playerPos = Player.Ins.transform.position;
             Vector3 myPos = transform.position;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace sea_survival.Scripts.Stages
 {
-    public class StageSystem : SingletonMonoBehaviour<StageSystem>
+    public class StageManager : SingletonMonoBehaviour<StageManager>
     {
         [SerializeField] private int currentStageLv = 1;
         public int CurrentStageLv => currentStageLv;
