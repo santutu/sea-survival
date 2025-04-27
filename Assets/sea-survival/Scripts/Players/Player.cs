@@ -1,11 +1,18 @@
 ﻿using Santutu.Core.Base.Runtime.Singletons;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace sea_survival.Scripts.Players
 {
     public class Player : SingletonMonoBehaviour<Player>
     {
         public float moveSpeed = 5f;
+
+        [SerializeField] public float hp;
+        [SerializeField] public float maxHp;
+        [SerializeField] public float HpPercent => hp / maxHp;
+        [SerializeField] public Image healthBarImage;
+
 
         private Rigidbody2D _rb;
         private Animator _animator;
@@ -38,6 +45,8 @@ namespace sea_survival.Scripts.Players
             var isMoving = MoveDirection.magnitude > 0;
             _animator.SetBool(AnimState.IsMoving, isMoving);
             _animator.SetBool(AnimState.IsIdle, !isMoving);
+
+            healthBarImage.fillAmount = HpPercent;
         }
 
         private void FixedUpdate()
