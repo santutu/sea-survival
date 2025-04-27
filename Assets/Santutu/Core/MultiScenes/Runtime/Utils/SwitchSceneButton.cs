@@ -1,5 +1,7 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using R3;
+using Santutu.Modules.MultiScenes.Runtime.Transitions;
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
@@ -28,7 +30,16 @@ namespace Santutu.Modules.MultiScenes.Runtime.Utils
         private void Start()
         {
             button.OnClickAsObservable()
-                  .Subscribe(_ => { MultiSceneManager.Instance.SwitchScene(gameObject, targetScene); }
+                  .Subscribe(_ => {
+                           if (gameObject.TryGetComponent<ISceneLoadingTransitionable>(out var sceneLoadingTransitionable))
+                           {
+                               MultiSceneManager.Instance.SwitchScene(targetScene, sceneLoadingTransitionable).Forget();
+                           }
+                           else
+                           {
+                               MultiSceneManager.Instance.SwitchScene(targetScene).Forget();
+                           }
+                       }
                    )
                   .AddTo(this);
         }

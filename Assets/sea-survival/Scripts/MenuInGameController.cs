@@ -14,15 +14,6 @@ namespace sea_survival.Scripts
             var btns = menu.GetComponentsInChildren<Button>();
 
             btns[0].onClick.AddListener(() => { Toggle(); });
-
-            btns[1]
-               .onClick.AddListener(() => {
-                        Toggle();
-                        GameManager.Ins.ToMainMenu();
-                    }
-                );
-
-            btns[2].onClick.AddListener(() => { GameManager.Ins.EndGame(); });
         }
 
         private void Update()

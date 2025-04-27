@@ -32,7 +32,7 @@ namespace Santutu.Modules.MultiScenes.Runtime
         public static bool Loaded => Instance != null;
         public static readonly ObservableProgress<float> OnSceneLoadProgressChanged = new();
 
-        public void SwitchScene(GameObject from, SceneCluster targetScene)
+        public async UniTask SwitchScene(SceneCluster targetScene)
         {
             if (!Loaded)
             {
@@ -40,13 +40,18 @@ namespace Santutu.Modules.MultiScenes.Runtime
                 return;
             }
 
-            if (from.TryGetComponent<ISceneLoadingTransitionable>(out var transitionSceneLoader))
+            await SwitchState(targetScene);
+        }
+
+        public async UniTask SwitchScene(SceneCluster targetScene, ISceneLoadingTransitionable sceneLoadingTransitionable)
+        {
+            if (!Loaded)
             {
-                SwitchStateTransition(targetScene, transitionSceneLoader).Forget();
+                InitializeFromAnotherScene(targetScene);
                 return;
             }
 
-            SwitchState(targetScene).Forget();
+            await SwitchState(targetScene, sceneLoadingTransitionable);
         }
 
         public static void InitializeFromAnotherScene(SceneCluster startScene)
@@ -86,7 +91,7 @@ namespace Santutu.Modules.MultiScenes.Runtime
             CurrentScene.OnLoaded();
         }
 
-        public async UniTask SwitchStateTransition(
+        private async UniTask SwitchState(
             SceneCluster nextScene,
             ISceneLoadingTransitionable fadeInOutSceneLoadingTransitionable
         )
@@ -121,16 +126,23 @@ namespace Santutu.Modules.MultiScenes.Runtime
             OnSceneLoadProgressChanged.Report(1);
             CurrentScene = nextScene;
             SceneManagerEx.SetActiveScene(nextScene.activeScene.name);
+
             CurrentScene.OnLoaded();
 
             //unload loading scene
+            UnloadScene(transition, loadingScene, fadeInOutSceneLoadingTransitionable).Forget();
+        }
+
+        private async UniTask UnloadScene(ISceneTransition transition, SceneCluster scene, ISceneLoadingTransitionable fadeInOutSceneLoadingTransitionable)
+        {
             await transition.In();
-            await loadingScene.UnloadSubScenes();
+            await scene.UnloadSubScenes();
             await transition.Out();
             await fadeInOutSceneLoadingTransitionable.UnloadScene();
         }
 
-        public async UniTask SwitchState(SceneCluster nextScene)
+
+        private async UniTask SwitchState(SceneCluster nextScene)
         {
             //load loading scene
             var loadingSceneTask = loadingScene.CreateSubScenesLoadTask();
@@ -157,7 +169,7 @@ namespace Santutu.Modules.MultiScenes.Runtime
             CurrentScene.OnLoaded();
 
             //unload loading scene
-            await loadingScene.UnloadSubScenes();
+            loadingScene.UnloadSubScenes().Forget();
         }
     }
 }

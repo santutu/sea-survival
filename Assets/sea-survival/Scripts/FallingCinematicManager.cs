@@ -5,6 +5,7 @@ using sea_survival.Scripts.Enemies;
 using sea_survival.Scripts.StageSystem;
 using sea_survival.Scripts.Weapons;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace sea_survival.Scripts
 {
@@ -21,14 +22,9 @@ namespace sea_survival.Scripts
         [SerializeField] private float playerFallingSpeed = 5f;
         [SerializeField] private float cinematicDelay = 1f;
 
-        private Camera _mainCamera;
+        [SerializeField] private Camera mainCamera;
         private Coroutine _cinematicCoroutine;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            _mainCamera = Camera.main;
-        }
 
         public void StartCinematic()
         {
@@ -49,8 +45,8 @@ namespace sea_survival.Scripts
             DefaultAttack.Ins.enabled = false;
 
             // 카메라를 해당 포인트로 옮긴다
-            _mainCamera.transform.position = startCameraPoint.transform.position;
-         
+            mainCamera.transform.position = startCameraPoint.transform.position;
+
 
             yield return new WaitForSeconds(cinematicDelay);
 
