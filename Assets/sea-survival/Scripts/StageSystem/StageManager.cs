@@ -11,8 +11,6 @@ namespace sea_survival.Scripts.StageSystem
         [SerializeField] private GameObject nextStageButton;
         [SerializeField] private GameObject gameOverPanel;
         [SerializeField] private GameObject victoryPanel;
-        [SerializeField] private Button mainMenuButton;
-
         [Header("스테이지 상태")] [SerializeField] private BattleStage battleStage;
         [SerializeField] private RestStage restStage;
 
@@ -29,15 +27,9 @@ namespace sea_survival.Scripts.StageSystem
             base.Awake();
 
             // UI 버튼 이벤트 설정
-            if (nextStageButton != null)
-            {
-                nextStageButton.GetComponent<Button>().onClick.AddListener(StartNextStage);
-            }
 
-            if (mainMenuButton != null)
-            {
-                mainMenuButton.onClick.AddListener(ReturnToMainMenu);
-            }
+            nextStageButton.GetComponentInChildren<Button>().onClick.AddListener(StartNextStage);
+
 
             // 게임 시작 시 UI 패널 비활성화
             if (gameOverPanel != null) gameOverPanel.SetActive(false);

@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Santutu.Core.Base.Runtime.Singletons;
 using Santutu.Core.Extensions.Runtime.UnityExtensions;
+using Santutu.Core.Extensions.Runtime.UnityStaticExtensions;
 using sea_survival.Scripts.Enemies;
 using sea_survival.Scripts.Players;
+using sea_survival.Scripts.StageSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace sea_survival.Scripts
 {
+    [DefaultExecutionOrder(-1)]
     public class GameManager : SingletonMonoBehaviour<GameManager>
     {
-        [SerializeField] private GameObject mainUI;
-        [SerializeField] private GameObject inGameUI;
+        [FormerlySerializedAs("mainUI")] [SerializeField]
+        private GameObject main;
+
+        [FormerlySerializedAs("inGameUI")] [SerializeField]
+        private GameObject inGamePrefab;
+
+        [SerializeField] private GameObject inGame;
 
         [SerializeField] private bool initializeGame = false;
 
@@ -23,25 +32,49 @@ namespace sea_survival.Scripts
 
         [SerializeField] private GameObject warmUpPoint;
 
+
         private void Start()
         {
             Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
 
             if (initializeGame)
             {
-                EnemyAllSpawners.Ins.enabled = false;
-                Player.Ins.enabled = false;
-                mainUI.SetActive(true);
-                inGameUI.SetActive(false);
+                ToMainMenu();
             }
 
             WarmUp().Forget();
         }
 
+        public void ToMainMenu()
+        {
+            foreach (var rootGameObject in SceneManagerEx.ActiveScene.GetRootGameObjects())
+            {
+                if (rootGameObject.name == "Core")
+                {
+                    continue;
+                }
+
+                rootGameObject.DestroySelf();
+            }
+
+            inGame = inGamePrefab.Instantiate();
+            inGame.transform.position = Vector3.zero;
+
+            StageManager.Ins.gameObject.SetActive(false);
+            Player.Ins.enabled = false;
+            main.SetActive(true);
+            inGame.SetActive(false);
+
+
+            //re create todo prefab
+        }
+
         public void StartGame()
         {
-            mainUI.SetActive(false);
-            inGameUI.SetActive(true);
+            StageManager.Ins.gameObject.SetActive(true);
+            main.SetActive(false);
+            inGame.SetActive(true);
+
             FallingCinematicManager.Ins.StartCinematic();
         }
 

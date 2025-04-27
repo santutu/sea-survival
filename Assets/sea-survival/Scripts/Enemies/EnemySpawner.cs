@@ -47,6 +47,7 @@ namespace sea_survival.Scripts.Enemies
             GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
             GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
 
+
             _activeEnemies.Add(enemy);
         }
     }

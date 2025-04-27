@@ -9,6 +9,11 @@ namespace sea_survival.Scripts
     {
         private void LateUpdate()
         {
+            if (Player.Ins == null)
+            {
+                return;
+            }
+
             Vector3 newPosition = Player.Ins.transform.position;
             transform.position = newPosition;
         }

@@ -2,6 +2,7 @@
 using sea_survival.Scripts.Players;
 using System.Collections;
 using sea_survival.Scripts.Enemies;
+using sea_survival.Scripts.StageSystem;
 using sea_survival.Scripts.Weapons;
 using UnityEngine;
 
@@ -136,7 +137,7 @@ namespace sea_survival.Scripts
             Player.Ins.SetAnimation(AnimState.IsFalling, false);
             Player.Ins.SetAnimation(AnimState.IsIdle, false);
 
-            EnemyAllSpawners.Ins.enabled = true;
+
             Player.Ins.enabled = true;
             DefaultAttack.Ins.enabled = true;
             CameraController.Ins.enabled = true;
