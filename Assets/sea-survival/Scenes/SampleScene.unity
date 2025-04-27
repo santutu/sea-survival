@@ -80898,7 +80898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1755836883
 Transform:
   m_ObjectHideFlags: 0
@@ -81137,6 +81137,8 @@ MonoBehaviour:
   hp: 100
   maxHp: 100
   healthBarImage: {fileID: 1355445232}
+  hitEffectPrefab: {fileID: 0}
+  invincibilityTime: 0.5
 --- !u!70 &1915972160
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -81167,7 +81169,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -81372,7 +81374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2005441205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81421,7 +81423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2023380778
 Transform:
   m_ObjectHideFlags: 0

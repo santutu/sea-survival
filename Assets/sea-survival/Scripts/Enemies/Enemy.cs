@@ -1,7 +1,9 @@
+using System;
 using Santutu.Modules.UI.Runtime.FloatingTexts;
 using sea_survival.Scripts.Contracts;
 using sea_survival.Scripts.Players;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace sea_survival.Scripts.Enemies
 {
@@ -15,9 +17,20 @@ namespace sea_survival.Scripts.Enemies
         [SerializeField] private int expAmount = 10; // 기본 경험치 양
         [SerializeField] private float expDropChance = 1.0f; // 경험치 드롭 확률 (0.0 ~ 1.0)
 
+        [Header("플레이어 충돌 설정")] [SerializeField]
+        private float damageToPlayer = 10f; // 플레이어에게 주는 데미지
+
+        [SerializeField] private float knockbackForce = 5f; // 플레이어에게 밀려날 때의 힘
+        [SerializeField] private float attackCooldown = 0.5f; // 공격 쿨다운 시간
+        [SerializeField] private float knockbackDuration = 0.5f; // 넉백 지속 시간
+
         private Player Player => Player.Ins;
         private Rigidbody2D _rb;
         private SpriteRenderer _spriteRenderer;
+        private bool _canAttack = true;
+        private float _attackTimer = 0f;
+        private bool _isKnockedBack = false;
+        private float _knockbackTimer = 0f;
 
         [SerializeField] public GameObject hitEffectPrefab;
 
@@ -39,11 +52,34 @@ namespace sea_survival.Scripts.Enemies
             {
                 _spriteRenderer.flipX = direction.x < 0;
             }
+
+            // 공격 쿨다운 처리
+            if (!_canAttack)
+            {
+                _attackTimer -= Time.deltaTime;
+                if (_attackTimer <= 0f)
+                {
+                    _canAttack = true;
+                }
+            }
+            
+            // 넉백 타이머 처리
+            if (_isKnockedBack)
+            {
+                _knockbackTimer -= Time.deltaTime;
+                if (_knockbackTimer <= 0f)
+                {
+                    _isKnockedBack = false;
+                }
+            }
         }
 
         private void FixedUpdate()
         {
             if (Player == null) return;
+            
+            // 넉백 상태일 때는 플레이어 추적을 중단
+            if (_isKnockedBack) return;
 
             // 플레이어 쪽으로 이동
             Vector2 direction = Player.transform.position - transform.position;
@@ -110,6 +146,48 @@ namespace sea_survival.Scripts.Enemies
                     expComponent.SetExpValue(expAmount);
                 }
             }
+        }
+
+        // 플레이어와의 충돌 처리
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            Player player = collision.gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                // 플레이어 데미지 처리 (쿨타임에 따라 적용)
+                if (_canAttack)
+                {
+                    ApplyDamageToPlayer(player);
+                    
+                    // 공격 쿨다운 설정
+                    _canAttack = false;
+                    _attackTimer = attackCooldown;
+                }
+                
+                // 적이 밀려나도록 처리 (항상 적용)
+                ApplyKnockbackToSelf(player.transform.position);
+            }
+        }
+
+        // 플레이어에게 데미지를 주는 함수
+        private void ApplyDamageToPlayer(Player player)
+        {
+            // IDamageable 인터페이스를 통해 데미지 적용
+            player.TakeDamage(damageToPlayer);
+        }
+
+        // 자신을 플레이어로부터 밀쳐내는 함수
+        private void ApplyKnockbackToSelf(Vector3 playerPosition)
+        {
+            Debug.Log("knock");
+            Vector2 knockbackDirection = (transform.position - playerPosition).normalized;
+            
+            // 속도를 직접 설정하여 넉백 효과 적용
+            _rb.linearVelocity = knockbackDirection * knockbackForce;
+            
+            // 넉백 상태 설정
+            _isKnockedBack = true;
+            _knockbackTimer = knockbackDuration;
         }
     }
 }

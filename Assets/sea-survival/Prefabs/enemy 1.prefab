@@ -108,6 +108,10 @@ MonoBehaviour:
   expPrefab: {fileID: 3231776205118448132, guid: 7e96597644ce3a24f91e37cf4495e853, type: 3}
   expAmount: 10
   expDropChance: 1
+  damageToPlayer: 2
+  knockbackForce: 0.2
+  attackCooldown: 0.5
+  knockbackDuration: 0.5
   hitEffectPrefab: {fileID: 0}
 --- !u!50 &2999627559973655795
 Rigidbody2D:
