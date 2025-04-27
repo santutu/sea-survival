@@ -50,19 +50,25 @@ namespace sea_survival.Scripts.StageSystem
             base.OnEnter();
             Debug.Log($"전투 단계 시작: 스테이지 {StageManager.CurrentStageLv}");
 
-            // 포탈 제거 (이전 스테이지에서 남아있을 경우)
+
             StageManager.DestroyPortal();
+
 
             // 적 스폰 설정
             SetupEnemiesForCurrentStage();
 
-            // 타이머 초기화 및 UI 업데이트
-            UpdateTimerUI(stageTime);
-
-            // 스테이지 레벨 UI 업데이트
             UpdateStageUI();
 
-            // 타이머 코루틴 시작
+            //보스일경우 시간초 없음
+            if (StageManager.CurrentStageLv == 5)
+            {
+                UpdateTimerUI(0);
+                return;
+            }
+
+            UpdateTimerUI(stageTime);
+
+
             if (_stageTimerCoroutine != null)
             {
                 StopCoroutine(_stageTimerCoroutine);
@@ -165,7 +171,7 @@ namespace sea_survival.Scripts.StageSystem
         }
 
         // 플레이어 주변에 포탈 소환
-        private void SpawnPortalNearPlayer()
+        public void SpawnPortalNearPlayer()
         {
             if (Player != null)
             {

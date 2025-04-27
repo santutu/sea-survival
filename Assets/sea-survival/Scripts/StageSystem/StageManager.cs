@@ -111,6 +111,13 @@ namespace sea_survival.Scripts.StageSystem
             StartBattleStage();
         }
 
+        // 보스 처치 시 호출되는 메서드
+        public void BossDefeated()
+        {
+            Debug.Log("보스 처치! 게임 승리!");
+            GameVictory();
+        }
+
         // 포탈 생성
         public void SpawnPortal(Vector3 position)
         {
