@@ -49,14 +49,8 @@ namespace sea_survival.Scripts
             DefaultAttack.Ins.enabled = false;
 
             // 카메라를 해당 포인트로 옮긴다
-            if (_mainCamera != null && startCameraPoint != null)
-            {
-                _mainCamera.transform.position = startCameraPoint.transform.position;
-                if (startCameraPoint.GetComponent<Camera>() != null)
-                {
-                    _mainCamera.orthographicSize = startCameraPoint.GetComponent<Camera>().orthographicSize;
-                }
-            }
+            _mainCamera.transform.position = startCameraPoint.transform.position;
+         
 
             yield return new WaitForSeconds(cinematicDelay);
 

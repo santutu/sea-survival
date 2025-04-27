@@ -132,10 +132,7 @@ namespace sea_survival.Scripts.StageSystem
         // 게임 오버 처리
         public void GameOver()
         {
-            if (gameOverPanel != null)
-            {
-                gameOverPanel.SetActive(true);
-            }
+            gameOverPanel.SetActive(true);
 
             // 현재 스테이지 종료
             if (_currentState != null)

@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using sea_survival.Scripts.Contracts;
+using sea_survival.Scripts.StageSystem;
 
 namespace sea_survival.Scripts.Players
 {
@@ -85,25 +86,20 @@ namespace sea_survival.Scripts.Players
             _rb.MovePosition(_rb.position + nextVec);
         }
 
-        // IDamageable 인터페이스 구현
         public void TakeDamage(float damage)
         {
-            // 무적 상태면 데미지를 받지 않음
             if (_isInvincible) return;
 
             hp -= damage;
 
-            // 피격 이펙트 생성
             if (hitEffectPrefab != null)
             {
                 Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
             }
 
-            // 무적 상태 설정
             _isInvincible = true;
             _invincibilityTimer = invincibilityTime;
 
-            // 체력이 0 이하면 사망 처리
             if (hp <= 0)
             {
                 Die();
@@ -112,9 +108,8 @@ namespace sea_survival.Scripts.Players
 
         private void Die()
         {
-            // 사망 로직 구현
             Debug.Log("플레이어 사망");
-            // 게임 오버 처리 등을 여기에 추가
+            StageManager.Ins.GameOver();
         }
     }
 }

@@ -47,6 +47,7 @@ namespace sea_survival.Scripts
 
         public void ToMainMenu()
         {
+            Time.timeScale = 1;
             foreach (var rootGameObject in SceneManagerEx.ActiveScene.GetRootGameObjects())
             {
                 if (rootGameObject.name == "Core")
