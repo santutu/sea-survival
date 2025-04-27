@@ -1,0 +1,22 @@
+{
+    "name": "Santutu.Modules.MultiScenes",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:77221876cc6b8244180b96e320b1bcd4",
+        "GUID:1d0c53dc545d456cb3d24b5460efc680",
+        "GUID:c81e8e94bc2949998968e86ba83b0ba2",
+        "GUID:49f458d112604bb08f565846d7b71198",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:a9ef564d5b4b49428b2d7d530c500e9f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
