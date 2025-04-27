@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
-using sea_survival.Scripts.CardSystem;
 using sea_survival.Scripts.Players;
 using UnityEngine;
 
-namespace sea_survival.Scripts.Stages
+namespace sea_survival.Scripts.StageSystem
 {
     public class RestStage : StageState
     {

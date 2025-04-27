@@ -1,9 +1,8 @@
 using Santutu.Core.Base.Runtime.Singletons;
-using sea_survival.Scripts.Players;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace sea_survival.Scripts.Stages
+namespace sea_survival.Scripts.StageSystem
 {
     public class StageManager : SingletonMonoBehaviour<StageManager>
     {

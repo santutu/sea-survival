@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace sea_survival.Scripts.Stages
+namespace sea_survival.Scripts.StageSystem
 {
     public abstract class StageState : MonoBehaviour
     {

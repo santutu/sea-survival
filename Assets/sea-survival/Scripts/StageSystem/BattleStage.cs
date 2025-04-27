@@ -1,12 +1,10 @@
 using System.Collections;
-using sea_survival.Scripts.Enemies;
 using sea_survival.Scripts.Players;
-using sea_survival.Scripts.Stages.Stages;
-using TMPro;
+using sea_survival.Scripts.StageSystem.Stages;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace sea_survival.Scripts.Stages
+namespace sea_survival.Scripts.StageSystem
 {
     public class BattleStage : StageState
     {
@@ -19,6 +17,7 @@ namespace sea_survival.Scripts.Stages
         [SerializeField] private Text stageText; // 스테이지 레벨 표시할 텍스트
         [SerializeField] private string stageFormat = "스테이지 {0}"; // 스테이지 표시 형식
 
+        [SerializeField] public GameObject bossPrefab;
 
         private Coroutine _stageTimerCoroutine;
         private Player Player => Player.Ins;

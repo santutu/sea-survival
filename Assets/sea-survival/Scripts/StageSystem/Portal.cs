@@ -1,5 +1,4 @@
 using sea_survival.Scripts.Players;
-using sea_survival.Scripts.Stages;
 using UnityEngine;
 
 namespace sea_survival.Scripts.StageSystem

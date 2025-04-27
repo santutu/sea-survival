@@ -1,14 +1,16 @@
-﻿using UnityEngine;
+﻿using Santutu.Core.Extensions.Runtime.UnityExtensions;
+using sea_survival.Scripts.Players;
+using UnityEngine;
 
-namespace sea_survival.Scripts.Stages.Stages
+namespace sea_survival.Scripts.StageSystem.Stages
 {
     public class Lv5 : IStageLevel
     {
         public void SetupEnemies(BattleStage battleStage)
         {
-            // 스테이지 5: 보스 상어 (체력 25배, 전체 공격)
-            // battleStage.EnableEnemyType(battleStage.BossSharkPrefab);
-            Debug.Log("스테이지 5: 보스 상어 등장 (체력 25배, 전체 공격)");
+            var boss = battleStage.bossPrefab.Instantiate();
+            boss.transform.position = Player.Ins.transform.position + new Vector3(-5, 0, 0);
+            Debug.Log("스테이지 5: 보스 상어 등장 ");
         }
     }
 }

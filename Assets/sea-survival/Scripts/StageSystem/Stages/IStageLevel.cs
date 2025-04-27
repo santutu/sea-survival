@@ -1,6 +1,4 @@
-using UnityEngine;
-
-namespace sea_survival.Scripts.Stages.Stages
+namespace sea_survival.Scripts.StageSystem.Stages
 {
     public interface IStageLevel
     {

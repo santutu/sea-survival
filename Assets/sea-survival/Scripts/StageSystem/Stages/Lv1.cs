@@ -1,7 +1,7 @@
 ﻿using sea_survival.Scripts.Enemies;
 using UnityEngine;
 
-namespace sea_survival.Scripts.Stages.Stages
+namespace sea_survival.Scripts.StageSystem.Stages
 {
     public class Lv1 : IStageLevel
     {
