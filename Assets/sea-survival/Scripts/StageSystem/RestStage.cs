@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using sea_survival.Scripts.CardSystem;
 using sea_survival.Scripts.Players;
 using UnityEngine;
 
@@ -6,9 +8,8 @@ namespace sea_survival.Scripts.Stages
 {
     public class RestStage : StageState
     {
-        [SerializeField] private float restDuration = 30f; // 휴식 시간 (초)
-        [SerializeField] private float healAmount = 10f; // 초당 회복량
-        
+        [Header("휴식 설정")] [SerializeField] private float healAmount = 10f; // 초당 회복량
+
         private Player Player => Player.Ins;
         private Coroutine _healCoroutine;
 
@@ -17,15 +18,18 @@ namespace sea_survival.Scripts.Stages
         {
             base.OnEnter();
             Debug.Log($"휴식 단계 진입: 스테이지 {StageManager.CurrentStageLv}");
-            
+
+            // 포탈 제거
+            StageManager.DestroyPortal();
+            Time.timeScale = 0;
+
             // 체력 회복 코루틴 시작
             if (_healCoroutine != null)
             {
                 StopCoroutine(_healCoroutine);
             }
+
             _healCoroutine = StartCoroutine(HealOverTime());
-            
-            // UI 활성화 등 추가 작업
         }
 
         // 상태 종료시 호출
@@ -37,32 +41,52 @@ namespace sea_survival.Scripts.Stages
                 StopCoroutine(_healCoroutine);
                 _healCoroutine = null;
             }
-            
+
             Debug.Log("휴식 단계 종료");
+            Time.timeScale = 1;
             base.OnExit();
         }
-        
+
         // 플레이어 체력 회복 코루틴
         private IEnumerator HealOverTime()
         {
-            float elapsedTime = 0f;
-            
-            while (elapsedTime < restDuration)
+            // 초당 체력 회복
+            while (gameObject.activeSelf)
             {
                 // 플레이어 체력 회복
                 if (Player != null && Player.hp < Player.maxHp)
                 {
                     Player.hp = Mathf.Min(Player.hp + (healAmount * Time.deltaTime), Player.maxHp);
                 }
-                
-                elapsedTime += Time.deltaTime;
+
                 yield return null;
             }
-            
-            // 휴식 시간이 끝나면 다음 단계로 전환
-            Debug.Log("휴식 시간 종료");
-            // 추가 작업이 끝나면 다음 단계로 이동
-            StageManager.NextStage();
         }
     }
-} 
+
+    // 카드 타입 열거형
+    public enum CardType
+    {
+        Weapon,
+        Stat
+    }
+
+    // 무기 타입 열거형
+    public enum WeaponType
+    {
+        BasicWeapon,
+        MagicMissile,
+        Dagger,
+        Boomerang,
+        ElectricOrb,
+        SonicWave
+    }
+
+    // 스탯 타입 열거형
+    public enum StatType
+    {
+        MoveSpeed,
+        MaxHP,
+        HPRegen
+    }
+}

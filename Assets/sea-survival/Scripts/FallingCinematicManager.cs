@@ -136,7 +136,7 @@ namespace sea_survival.Scripts
             Player.Ins.SetAnimation(AnimState.IsFalling, false);
             Player.Ins.SetAnimation(AnimState.IsIdle, false);
 
-            EnemySpawner.Ins.enabled = true;
+            EnemyAllSpawners.Ins.enabled = true;
             Player.Ins.enabled = true;
             DefaultAttack.Ins.enabled = true;
             CameraController.Ins.enabled = true;

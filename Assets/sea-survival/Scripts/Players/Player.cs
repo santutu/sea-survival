@@ -10,6 +10,7 @@ namespace sea_survival.Scripts.Players
         public float moveSpeed = 5f;
 
         [SerializeField] public float hp;
+        [SerializeField] public float hpRegen = 0;
         [SerializeField] public float maxHp;
         [SerializeField] public float HpPercent => hp / maxHp;
         [SerializeField] public Image healthBarImage;
@@ -26,8 +27,7 @@ namespace sea_survival.Scripts.Players
         public Vector2 InputVec { get; private set; }
         public Vector2 MoveDirection { get; private set; }
 
-        [SerializeField]
-        public GameObject area;
+        [SerializeField] public GameObject area;
 
         protected override void Awake()
         {

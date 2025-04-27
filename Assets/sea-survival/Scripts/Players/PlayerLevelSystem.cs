@@ -1,5 +1,6 @@
 using System;
 using Santutu.Core.Base.Runtime.Singletons;
+using sea_survival.Scripts.CardSystem;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -37,6 +38,9 @@ namespace sea_survival.Scripts.Players
         {
             // 초기 경험치 이벤트 발생
             onExpGained.Invoke(currentExp, GetExpRequiredForNextLevel());
+            
+            // 레벨업 이벤트에 카드 선택 UI 표시 함수 연결
+            onLevelUp.AddListener(OnPlayerLevelUp);
         }
 
         // 기본 경험치 테이블 초기화
@@ -93,6 +97,20 @@ namespace sea_survival.Scripts.Players
                     currentExp = 0;
                     break;
                 }
+            }
+        }
+
+        // 플레이어 레벨업 시 호출
+        private void OnPlayerLevelUp(int newLevel)
+        {
+            Debug.Log($"플레이어 레벨업! 새 레벨: {newLevel}");
+            
+            // 레벨업 효과음, 이펙트 등 추가 가능
+            
+            // 레벨업 시 카드 선택 UI 표시
+            if (CardManager.Instance != null)
+            {
+                CardManager.Instance.ShowLevelUpCardSelection();
             }
         }
 

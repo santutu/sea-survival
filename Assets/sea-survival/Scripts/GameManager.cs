@@ -21,13 +21,15 @@ namespace sea_survival.Scripts
 
         [SerializeField] private List<GameObject> warmUpPrefabs = new();
 
+        [SerializeField] private GameObject warmUpPoint;
+
         private void Start()
         {
             Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
 
             if (initializeGame)
             {
-                EnemySpawner.Ins.enabled = false;
+                EnemyAllSpawners.Ins.enabled = false;
                 Player.Ins.enabled = false;
                 mainUI.SetActive(true);
                 inGameUI.SetActive(false);
@@ -54,16 +56,15 @@ namespace sea_survival.Scripts
 
         private async UniTask WarmUp()
         {
-            var parent = new GameObject();
-            parent.SetActive(false);
             foreach (var prefab in warmUpPrefabs)
             {
                 var newGo = prefab.Instantiate();
-                newGo.transform.SetParent(parent.transform);
+                newGo.transform.SetParent(warmUpPoint.transform);
+                newGo.transform.position = warmUpPoint.transform.position;
             }
 
             await UniTask.DelayFrame(5);
-            parent.DestroySelf();
+            warmUpPoint.DestroySelf();
         }
     }
 }

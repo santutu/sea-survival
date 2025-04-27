@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace sea_survival.Scripts.Enemies
 {
-    public class EnemySpawner : SingletonMonoBehaviour<EnemySpawner>
+    public class EnemySpawner : MonoBehaviour
     {
         [Header("적 생성 설정")] [SerializeField] private GameObject[] enemyPrefabs;
         [SerializeField] private float spawnRate = 1f;

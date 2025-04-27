@@ -1,17 +1,50 @@
-# Add directories or file patterns to ignore during indexing (e.g. foo/ or *.csv)
+# Unity 생성 폴더
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Mm]emoryCaptures/
+/[Uu]serSettings/
 
-# 모든 파일 무시
+# Unity 캐시 파일
+*.pidb
+*.pidb.meta
+*.pdb
+*.pdb.meta
+*.mdb
+*.mdb.meta
 
-*
+# Unity 크래시 리포트
+sysinfo.txt
 
-  
+# 빌드 파일
+*.apk
+*.aab
+*.unitypackage
+*.app
 
+# IDE 관련 파일들
+.vs/
+.idea/
+.gradle/
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.booproj
+*.svd
+*.opendb
+*.VC.db
+*.vscode
 
-
-# .cs 파일이 들어있는 디렉토리도 무시하지 않음
-
-!**/
-
-# .cs 파일은 무시하지 않음
-
-!*.cs
+# OS 파일
+Thumbs.db
+Thumbs.db.meta
+*.DS_Store
