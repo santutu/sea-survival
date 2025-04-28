@@ -42,7 +42,8 @@ namespace sea_survival.Scripts
             Player.Ins.area.SetActive(false);
             Player.Ins.enabled = false;
             CameraController.Ins.enabled = false;
-            DefaultAttack.Ins.enabled = false;
+            WeaponManager.Ins.gameObject.SetActive(false);
+
 
             // 카메라를 해당 포인트로 옮긴다
             mainCamera.transform.position = startCameraPoint.transform.position;
@@ -129,7 +130,7 @@ namespace sea_survival.Scripts
 
 
             Player.Ins.enabled = true;
-            DefaultAttack.Ins.enabled = true;
+            WeaponManager.Ins.gameObject.SetActive(true);
             CameraController.Ins.enabled = true;
             Player.Ins.area.SetActive(true);
         }

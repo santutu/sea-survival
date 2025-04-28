@@ -27,6 +27,8 @@ namespace sea_survival.Scripts.Players
 
         protected override void Awake()
         {
+            base.Awake();
+
             // 기본 경험치 테이블 설정 (설정되지 않은 경우)
             if (expRequiredForLevel == null || expRequiredForLevel.Length == 0)
             {
@@ -55,71 +57,51 @@ namespace sea_survival.Scripts.Players
             }
         }
 
-        // 경험치 추가
+        // 경험치 획득
         public void AddExperience(int amount)
         {
-            // 이미 최대 레벨이면 무시
+            // 최대 레벨에 도달한 경우
             if (currentLevel >= maxLevel)
+            {
                 return;
+            }
 
-            // 경험치 추가
             currentExp += amount;
+            int requiredExp = GetExpRequiredForNextLevel();
 
             // 레벨업 체크
-            CheckForLevelUp();
-
-            // 경험치 획득 이벤트 발생
-            onExpGained.Invoke(currentExp, GetExpRequiredForNextLevel());
-        }
-
-        // 레벨업 체크
-        private void CheckForLevelUp()
-        {
-            int expRequired = GetExpRequiredForNextLevel();
-
-            // 필요 경험치를 충족하면 레벨업
-            while (currentExp >= expRequired && currentLevel < maxLevel)
+            while (currentExp >= requiredExp && currentLevel < maxLevel)
             {
-                currentExp -= expRequired;
+                currentExp -= requiredExp;
                 currentLevel++;
 
                 // 레벨업 이벤트 발생
                 onLevelUp.Invoke(currentLevel);
 
-                // 다음 레벨 필요 경험치 계산
-                if (currentLevel < maxLevel)
+                // 최대 레벨 도달 시 경험치를 0으로 설정
+                if (currentLevel >= maxLevel)
                 {
-                    expRequired = GetExpRequiredForNextLevel();
-                }
-                else
-                {
-                    // 최대 레벨에 도달하면 경험치를 0으로 설정
                     currentExp = 0;
                     break;
                 }
-            }
-        }
 
-        // 플레이어 레벨업 시 호출
-        private void OnPlayerLevelUp(int newLevel)
-        {
-            Debug.Log($"플레이어 레벨업! 새 레벨: {newLevel}");
+                // 다음 레벨에 필요한 경험치 계산
+                requiredExp = GetExpRequiredForNextLevel();
+            }
+
+            // 경험치 획득 이벤트 발생
+            onExpGained.Invoke(currentExp, requiredExp);
         }
 
         // 다음 레벨에 필요한 경험치 반환
         public int GetExpRequiredForNextLevel()
         {
-            // 인덱스는 0부터 시작하므로 현재 레벨 - 1
-            int index = currentLevel - 1;
-
-            // 유효한 인덱스 확인
-            if (index >= 0 && index < expRequiredForLevel.Length)
+            if (currentLevel >= maxLevel)
             {
-                return expRequiredForLevel[index];
+                return int.MaxValue; // 최대 레벨에 도달한 경우 무한대
             }
 
-            // 기본값 반환
-            return 100;
+            return expRequiredForLevel[currentLevel - 1];
         }
 
         // 현재 레벨 반환
@@ -134,13 +116,38 @@ namespace sea_survival.Scripts.Players
             return currentExp;
         }
 
+        // 다음 레벨까지 남은 경험치 반환
+        public int GetRemainingExp()
+        {
+            return GetExpRequiredForNextLevel() - currentExp;
+        }
+        
         // 현재 레벨 진행률 (0.0 ~ 1.0)
         public float GetLevelProgress()
         {
             int expRequired = GetExpRequiredForNextLevel();
             if (expRequired <= 0) return 1f;
-
+            
             return (float)currentExp / expRequired;
+        }
+
+        // 플레이어 레벨업 시 호출되는 메서드
+        private void OnPlayerLevelUp(int newLevel)
+        {
+            Debug.Log($"플레이어 레벨업! 레벨 {newLevel}로 상승");
+
+            // 여기서 카드 선택 UI를 표시하거나 다른 레벨업 보상 로직을 실행
+            // CardManager가 레벨업 이벤트를 구독하고 있으므로 자동으로 카드 선택 UI가 표시됨
+
+            // 추가 레벨업 보상이 있다면 여기에 구현
+            // 예: 레벨업 효과음 재생, 레벨업 이펙트 표시 등
+
+            // 플레이어 일부 회복
+            if (Player != null)
+            {
+                Player.hp += Player.maxHp * 0.2f; // 최대 체력의 20% 회복
+                Player.hp = Mathf.Min(Player.hp, Player.maxHp); // 최대 체력 초과하지 않도록
+            }
         }
     }
 }
