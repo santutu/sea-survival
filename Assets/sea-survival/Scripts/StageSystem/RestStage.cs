@@ -61,30 +61,4 @@ namespace sea_survival.Scripts.StageSystem
             }
         }
     }
-
-    // 카드 타입 열거형
-    public enum CardType
-    {
-        Weapon,
-        Stat
-    }
-
-    // 무기 타입 열거형
-    public enum WeaponType
-    {
-        BasicWeapon,
-        MagicMissile,
-        Dagger,
-        Boomerang,
-        ElectricOrb,
-        SonicWave
-    }
-
-    // 스탯 타입 열거형
-    public enum StatType
-    {
-        MoveSpeed,
-        MaxHP,
-        HPRegen
-    }
 }
