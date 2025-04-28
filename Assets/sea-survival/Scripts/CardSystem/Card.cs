@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using sea_survival.Scripts.Enums;
 
 namespace sea_survival.Scripts.CardSystem
 {
@@ -40,10 +41,40 @@ namespace sea_survival.Scripts.CardSystem
             if (_cardData == null) return;
 
             // 카드 정보 설정
-            Debug.Log(cardNameText);
-            Debug.Log(_cardData);
             cardNameText.text = _cardData.cardName;
-            cardDescriptionText.text = _cardData.GetDescription();
+
+            // 카드 설명 설정
+            string description = _cardData.GetDescription();
+
+            // 무기 카드인 경우 다음 레벨 설명 추가
+            if (_cardData.IsWeaponCard())
+            {
+                // 무기가 이미 있는지 확인
+                if (WeaponManager.Ins.HasWeapon(_cardData.weaponType))
+                {
+                    // 무기가 최대 레벨인지 확인
+                    if (WeaponManager.Ins.IsWeaponMaxLevel(_cardData.weaponType))
+                    {
+                        description += "<color=#FF5555>최대 레벨 도달</color>";
+                    }
+                    else
+                    {
+                        // 활성화된 무기 목록을 가져와서 다음 레벨 설명 추가
+                        var activeWeapons = WeaponManager.Ins.GetAllActiveWeapons();
+                        if (activeWeapons.TryGetValue(_cardData.weaponType, out IWeapon weapon))
+                        {
+                            description += "<color=#00FFFF>다음 레벨:</color> " + weapon.GetNextLevelDescription();
+                        }
+                    }
+                }
+                else
+                {
+                    // 아직 획득하지 않은 무기인 경우 기본 설명만 표시
+                    description += "<color=#00FFFF>새 무기 획득</color>";
+                }
+            }
+
+            cardDescriptionText.text = description;
 
             // 카드 이미지 설정
             if (_cardData.cardImage != null)

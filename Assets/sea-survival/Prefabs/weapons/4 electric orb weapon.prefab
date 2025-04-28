@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7500308870408321108
+--- !u!1 &1893649504640181222
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6234215997033765574}
-  - component: {fileID: 2239914609599768918}
+  - component: {fileID: 6364520946545526819}
+  - component: {fileID: 3333102490766191155}
   m_Layer: 0
-  m_Name: Dagger weapon
+  m_Name: 4 electric orb weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6234215997033765574
+--- !u!4 &6364520946545526819
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7500308870408321108}
+  m_GameObject: {fileID: 1893649504640181222}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,25 +32,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2239914609599768918
+--- !u!114 &3333102490766191155
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7500308870408321108}
+  m_GameObject: {fileID: 1893649504640181222}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b464062d3d244b479204bbc96618088, type: 3}
+  m_Script: {fileID: 11500000, guid: b6c44f6ed5c243444a9497cb95f112e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponType: 3
+  weaponType: 5
   currentLevel: 1
   baseAttackInterval: 1.5
-  baseDamage: 8
-  daggerSpeed: 8
-  daggerLifetime: 1.5
-  daggerPrefab: {fileID: 3078144847784424177, guid: 0ed9198c9bc15fc44a4431c3bdae9cee, type: 3}
-  fireRate: 1.5
-  criticalChance: 0
-  criticalDamageMultiplier: 2
+  baseDamage: 10
+  orbRadius: 2
+  rotationSpeed: 90
+  orbPrefab: {fileID: 4812827388848763988, guid: 2dd860534ef19d8489422337056ad1c5, type: 3}
+  chainEffectPrefab: {fileID: 3820985015526018320, guid: 28de5490e1719e34e96168cbaa3e3e29, type: 3}
+  baseOrbCount: 2
+  hasChainEffect: 0

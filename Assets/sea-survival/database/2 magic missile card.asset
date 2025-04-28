@@ -16,6 +16,6 @@ MonoBehaviour:
   description: 
   cardImage: {fileID: 21300000, guid: 68a47f8f468a24f4499713d853691390, type: 3}
   cardType: 0
-  weaponType: 1
+  weaponType: 2
   statType: 0
   statIncreaseAmount: 10
