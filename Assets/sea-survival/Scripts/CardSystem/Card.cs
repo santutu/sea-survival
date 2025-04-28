@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using sea_survival.Scripts.Enums;
+using UnityEngine.Serialization;
 
 namespace sea_survival.Scripts.CardSystem
 {
@@ -18,7 +19,7 @@ namespace sea_survival.Scripts.CardSystem
         [Header("카드 애니메이션")] [SerializeField] private float hoverScaleMultiplier = 1.1f;
         [SerializeField] private float animationDuration = 0.2f;
 
-        private CardData _cardData;
+        public CardData cardData;
         private Vector3 _originalScale;
         private RectTransform _rectTransform;
 
@@ -31,29 +32,29 @@ namespace sea_survival.Scripts.CardSystem
         // 카드 데이터 설정
         public void SetCardData(CardData cardData)
         {
-            _cardData = cardData;
+            this.cardData = cardData;
             UpdateCardUI();
         }
 
         // 카드 UI 업데이트
         private void UpdateCardUI()
         {
-            if (_cardData == null) return;
+            if (cardData == null) return;
 
             // 카드 정보 설정
-            cardNameText.text = _cardData.cardName;
+            cardNameText.text = cardData.cardName;
 
             // 카드 설명 설정
-            string description = _cardData.GetDescription();
+            string description = cardData.GetDescription();
 
             // 무기 카드인 경우 다음 레벨 설명 추가
-            if (_cardData.IsWeaponCard())
+            if (cardData.IsWeaponCard())
             {
                 // 무기가 이미 있는지 확인
-                if (WeaponManager.Ins.HasWeapon(_cardData.weaponType))
+                if (WeaponManager.Ins.HasWeapon(cardData.weaponType))
                 {
                     // 무기가 최대 레벨인지 확인
-                    if (WeaponManager.Ins.IsWeaponMaxLevel(_cardData.weaponType))
+                    if (WeaponManager.Ins.IsWeaponMaxLevel(cardData.weaponType))
                     {
                         description += "<color=#FF5555>최대 레벨 도달</color>";
                     }
@@ -61,7 +62,7 @@ namespace sea_survival.Scripts.CardSystem
                     {
                         // 활성화된 무기 목록을 가져와서 다음 레벨 설명 추가
                         var activeWeapons = WeaponManager.Ins.GetAllActiveWeapons();
-                        if (activeWeapons.TryGetValue(_cardData.weaponType, out IWeapon weapon))
+                        if (activeWeapons.TryGetValue(cardData.weaponType, out IWeapon weapon))
                         {
                             description += "<color=#00FFFF>다음 레벨:</color> " + weapon.GetNextLevelDescription();
                         }
@@ -77,9 +78,9 @@ namespace sea_survival.Scripts.CardSystem
             cardDescriptionText.text = description;
 
             // 카드 이미지 설정
-            if (_cardData.cardImage != null)
+            if (cardData.cardImage != null)
             {
-                cardImage.sprite = _cardData.cardImage;
+                cardImage.sprite = cardData.cardImage;
                 cardImage.enabled = true;
             }
             else
@@ -92,7 +93,7 @@ namespace sea_survival.Scripts.CardSystem
         public void OnPointerClick(PointerEventData eventData)
         {
             // 카드 매니저를 통해 카드 선택 처리
-            CardManager.Ins.SelectCard(_cardData);
+            CardManager.Ins.SelectCard(this);
         }
 
         // 마우스 진입 시 카드 확대
@@ -110,29 +111,34 @@ namespace sea_survival.Scripts.CardSystem
         // 카드 효과 적용
         public void ApplyCardEffect()
         {
-            if (_cardData == null) return;
+            if (cardData == null) return;
 
-            if (_cardData.IsWeaponCard())
+            if (cardData.IsWeaponCard())
             {
                 // 무기 카드 효과 적용
-                WeaponManager.Ins.AddWeapon(_cardData.weaponType);
+                WeaponManager.Ins.AddWeapon(cardData.weaponType);
             }
-            else if (_cardData.IsStatCard())
+            else if (cardData.IsStatCard())
             {
                 // 스탯 카드 효과 적용
                 Player player = Player.Ins;
 
-                switch (_cardData.statType)
+                switch (cardData.statType)
                 {
                     case Enums.StatType.MoveSpeed:
-                        player.moveSpeed *= (1 + _cardData.statIncreaseAmount / 100f);
+                        // 이동 속도는 백분율로 증가
+                        player.moveSpeed *= (1 + cardData.statIncreaseAmount / 100f);
                         break;
                     case Enums.StatType.MaxHP:
-                        player.maxHp *= (1 + _cardData.statIncreaseAmount / 100f);
+                        // 최대 HP는 절대값으로 증가
+                        Debug.Log(cardData.statIncreaseAmount);
+                        player.maxHp += cardData.statIncreaseAmount;
+                        Debug.Log(player.maxHp);
                         player.hp = player.maxHp; // 체력 완전 회복
                         break;
                     case Enums.StatType.HPRegen:
-                        player.hpRegen *= (1 + _cardData.statIncreaseAmount / 100f);
+                        // HP 재생은 절대값으로 증가
+                        player.hpRegen += cardData.statIncreaseAmount;
                         break;
                 }
             }

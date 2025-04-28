@@ -18,4 +18,4 @@ MonoBehaviour:
   cardType: 1
   weaponType: 0
   statType: 0
-  statIncreaseAmount: 0.5
+  statIncreaseAmount: 20

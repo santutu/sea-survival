@@ -10,30 +10,29 @@ namespace sea_survival.Scripts.CardSystem
 {
     public class CardManager : SingletonMonoBehaviour<CardManager>
     {
-        [Header("카드 풀 설정")]
-        [SerializeField] private List<CardData> allCardDatas = new List<CardData>();
+        [Header("카드 풀 설정")] [SerializeField] private List<CardData> allCardDatas = new List<CardData>();
         [SerializeField] private CardUI cardUI;
-        
+
         private List<CardData> _availableCardDatas = new List<CardData>();
         private CardData _selectedCard = null;
-        
+
         protected override void Awake()
         {
             base.Awake();
             RefreshAvailableCards();
         }
-        
+
         private void Start()
         {
             // 레벨업 이벤트에 카드 선택 표시 함수 연결
             PlayerLevelSystem.Ins.onLevelUp.AddListener(ShowLevelUpCards);
         }
-        
+
         // 사용 가능한 카드 목록 새로 고침
         private void RefreshAvailableCards()
         {
             _availableCardDatas.Clear();
-            
+
             foreach (CardData card in allCardDatas)
             {
                 // 무기 카드인 경우 해당 무기가 최대 레벨인지 확인
@@ -52,34 +51,34 @@ namespace sea_survival.Scripts.CardSystem
                 }
             }
         }
-        
+
         // 레벨업 시 카드 선택 UI 표시
         public void ShowLevelUpCards(int currentLevel)
         {
             if (cardUI == null) return;
-            
+
             // 사용 가능한 카드 목록 새로 고침
             RefreshAvailableCards();
-            
+
             // 표시할 카드 선택
             List<CardData> cardsToShow = SelectRandomCards(3);
-            
+
             // 카드 UI 표시
             cardUI.ShowCardSelection(cardsToShow);
         }
-        
+
         // 랜덤 카드 선택
         private List<CardData> SelectRandomCards(int count)
         {
             List<CardData> selectedCards = new List<CardData>();
             List<CardData> tempCards = new List<CardData>(_availableCardDatas);
-            
+
             // 템프 카드 목록이 비어있는 경우 모든 카드 사용
             if (tempCards.Count == 0)
             {
                 tempCards = new List<CardData>(allCardDatas);
             }
-            
+
             // 랜덤 카드 선택
             for (int i = 0; i < count && tempCards.Count > 0; i++)
             {
@@ -87,69 +86,34 @@ namespace sea_survival.Scripts.CardSystem
                 selectedCards.Add(tempCards[randomIndex]);
                 tempCards.RemoveAt(randomIndex);
             }
-            
+
             return selectedCards;
         }
-        
+
         // 카드 선택 처리
-        public void SelectCard(CardData card)
+        public void SelectCard(Card card)
         {
             if (card == null) return;
-            
-            _selectedCard = card;
-            
-            // 카드 유형에 따른 처리
-            if (card.IsWeaponCard())
-            {
-                // 무기 카드 처리
-                ApplyWeaponCard(card);
-            }
-            else if (card.IsStatCard())
-            {
-                // 스탯 카드 처리
-                ApplyStatCard(card);
-            }
-            
+
+            _selectedCard = card.cardData;
+
+            card.ApplyCardEffect();
+
             // 카드 선택 UI 닫기
             cardUI.CloseCardSelection();
-            
+
             // 사용 가능한 카드 목록 업데이트
             RefreshAvailableCards();
         }
-        
-        // 무기 카드 적용
-        private void ApplyWeaponCard(CardData card)
-        {
-            WeaponManager.Ins.AddWeapon(card.weaponType);
-        }
-        
-        // 스탯 카드 적용
-        private void ApplyStatCard(CardData card)
-        {
-            Player player = Player.Ins;
-            
-            switch (card.statType)
-            {
-                case StatType.MoveSpeed:
-                    player.moveSpeed *= (1 + card.statIncreaseAmount / 100f);
-                    break;
-                case StatType.MaxHP:
-                    player.maxHp *= (1 + card.statIncreaseAmount / 100f);
-                    player.hp = player.maxHp; // 체력 완전 회복
-                    break;
-                case StatType.HPRegen:
-                    player.hpRegen *= (1 + card.statIncreaseAmount / 100f);
-                    break;
-            }
-        }
-        
+
+
         // 무기 카드 데이터 생성 (에디터용 헬퍼 메서드)
         public CardData CreateWeaponCardData(WeaponType weaponType)
         {
             CardData card = ScriptableObject.CreateInstance<CardData>();
             card.cardType = CardType.Weapon;
             card.weaponType = weaponType;
-            
+
             // 무기 이름 설정
             switch (weaponType)
             {
@@ -178,10 +142,10 @@ namespace sea_survival.Scripts.CardSystem
                     card.description = "일정 시간마다 주변으로 원형 파동 방출";
                     break;
             }
-            
+
             return card;
         }
-        
+
         // 스탯 카드 데이터 생성 (에디터용 헬퍼 메서드)
         public CardData CreateStatCardData(StatType statType, float increaseAmount)
         {
@@ -189,7 +153,7 @@ namespace sea_survival.Scripts.CardSystem
             card.cardType = CardType.Stat;
             card.statType = statType;
             card.statIncreaseAmount = increaseAmount;
-            
+
             // 스탯 이름 설정
             switch (statType)
             {
@@ -203,7 +167,7 @@ namespace sea_survival.Scripts.CardSystem
                     card.cardName = "체력 회복 증가";
                     break;
             }
-            
+
             return card;
         }
     }

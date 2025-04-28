@@ -17,7 +17,7 @@ namespace sea_survival.Scripts.CardSystem
         
         [Header("스탯 카드 설정")]
         public StatType statType;
-        public float statIncreaseAmount = 10f; // 기본 증가량 (%)
+        public float statIncreaseAmount = 10f; // 기본 증가량 (% 또는 절대값)
         
         // 카드 설명 생성
         public string GetDescription()
@@ -31,7 +31,22 @@ namespace sea_survival.Scripts.CardSystem
             {
                 // 스탯 카드인 경우 스탯 증가량 포함한 설명 반환
                 string statName = GetStatName();
-                return $"{statName} {statIncreaseAmount}% 증가";
+                
+                // 스탯 타입에 따라 다른 설명 형식 사용
+                switch (statType)
+                {
+                    case StatType.MoveSpeed:
+                        // 이동 속도는 백분율로 표시
+                        return $"{statName} {statIncreaseAmount}% 증가";
+                    case StatType.MaxHP:
+                        // 최대 HP는 절대값으로 표시
+                        return $"{statName} {statIncreaseAmount} 증가";
+                    case StatType.HPRegen:
+                        // HP 재생은 절대값으로 표시
+                        return $"{statName} {statIncreaseAmount}/초 증가";
+                    default:
+                        return $"{statName} {statIncreaseAmount} 증가";
+                }
             }
             
             return description;

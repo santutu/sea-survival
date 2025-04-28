@@ -145,7 +145,6 @@ namespace sea_survival.Scripts.Players
             // 예: 레벨업 효과음 재생, 레벨업 이펙트 표시 등
 
             // 플레이어 일부 회복
-            Player.hp += Player.maxHp * 0.2f; // 최대 체력의 20% 회복
         }
     }
 }
