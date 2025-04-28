@@ -10,7 +10,7 @@ namespace sea_survival.Scripts.Weapons
         [SerializeField] private Transform weaponsParent;
         [SerializeField] private BasicWeapon basicWeaponPrefab;
         [SerializeField] private MagicMissile magicMissilePrefab;
-        
+
         // 아직 구현되지 않은 무기 프리팹 (주석 처리)
         /*
         [SerializeField] private Dagger daggerPrefab;
@@ -18,52 +18,53 @@ namespace sea_survival.Scripts.Weapons
         [SerializeField] private ElectricOrb electricOrbPrefab;
         [SerializeField] private SonicWave sonicWavePrefab;
         */
-        
+
         // 대신 GameObject로 참조하여 에러 방지
-        [Header("추가 무기 프리팹(개발중)")]
-        [SerializeField] private GameObject daggerPrefab;
+        [Header("추가 무기 프리팹(개발중)")] [SerializeField]
+        private GameObject daggerPrefab;
+
         [SerializeField] private GameObject boomerangPrefab;
         [SerializeField] private GameObject electricOrbPrefab;
         [SerializeField] private GameObject sonicWavePrefab;
-        
+
         private Dictionary<WeaponType, IWeapon> activeWeapons = new Dictionary<WeaponType, IWeapon>();
         private Dictionary<WeaponType, GameObject> weaponPrefabs = new Dictionary<WeaponType, GameObject>();
-        
+
         protected override void Awake()
         {
             base.Awake();
             InitializeWeaponPrefabsDictionary();
             InitializeDefaultWeapon();
         }
-        
+
         // 무기 프리팹 딕셔너리 초기화
         private void InitializeWeaponPrefabsDictionary()
         {
             if (basicWeaponPrefab != null)
                 weaponPrefabs[WeaponType.BasicWeapon] = basicWeaponPrefab.gameObject;
-            
+
             if (magicMissilePrefab != null)
                 weaponPrefabs[WeaponType.MagicMissile] = magicMissilePrefab.gameObject;
-                
+
             if (daggerPrefab != null)
                 weaponPrefabs[WeaponType.Dagger] = daggerPrefab;
-                
+
             if (boomerangPrefab != null)
                 weaponPrefabs[WeaponType.Boomerang] = boomerangPrefab;
-                
+
             if (electricOrbPrefab != null)
                 weaponPrefabs[WeaponType.ElectricOrb] = electricOrbPrefab;
-                
+
             if (sonicWavePrefab != null)
-                weaponPrefabs[WeaponType.SonicWave] = sonicWavePrefab;
+                weaponPrefabs[WeaponType.SoundWave] = sonicWavePrefab;
         }
-        
+
         // 기본 무기 초기화
         private void InitializeDefaultWeapon()
         {
             AddWeapon(WeaponType.BasicWeapon);
         }
-        
+
         // 새 무기 추가
         public bool AddWeapon(WeaponType weaponType)
         {
@@ -72,13 +73,13 @@ namespace sea_survival.Scripts.Weapons
             {
                 return LevelUpWeapon(weaponType);
             }
-            
+
             // 새 무기 생성
             if (weaponPrefabs.TryGetValue(weaponType, out GameObject prefab))
             {
                 GameObject weaponObj = Instantiate(prefab, weaponsParent);
                 IWeapon weapon = weaponObj.GetComponent<IWeapon>();
-                
+
                 if (weapon != null)
                 {
                     activeWeapons[weaponType] = weapon;
@@ -92,11 +93,11 @@ namespace sea_survival.Scripts.Weapons
                     return false;
                 }
             }
-            
+
             Debug.LogWarning($"무기 타입 {weaponType}에 대한 프리팹을 찾을 수 없습니다.");
             return false;
         }
-        
+
         // 무기 레벨업
         public bool LevelUpWeapon(WeaponType weaponType)
         {
@@ -104,16 +105,16 @@ namespace sea_survival.Scripts.Weapons
             {
                 return weapon.LevelUp();
             }
-            
+
             return false;
         }
-        
+
         // 해당 무기가 이미 활성화되어 있는지 확인
         public bool HasWeapon(WeaponType weaponType)
         {
             return activeWeapons.ContainsKey(weaponType);
         }
-        
+
         // 해당 무기의 현재 레벨 가져오기
         public WeaponLevel GetWeaponLevel(WeaponType weaponType)
         {
@@ -121,10 +122,10 @@ namespace sea_survival.Scripts.Weapons
             {
                 return weapon.CurrentLevel;
             }
-            
+
             return WeaponLevel.Level1; // 기본값
         }
-        
+
         // 해당 무기가 최대 레벨인지 확인
         public bool IsWeaponMaxLevel(WeaponType weaponType)
         {
@@ -132,14 +133,14 @@ namespace sea_survival.Scripts.Weapons
             {
                 return !weapon.CanLevelUp();
             }
-            
+
             return false;
         }
-        
+
         // 모든 활성 무기 가져오기
         public Dictionary<WeaponType, IWeapon> GetAllActiveWeapons()
         {
             return activeWeapons;
         }
     }
-} 
+}

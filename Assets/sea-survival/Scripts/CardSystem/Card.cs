@@ -9,42 +9,42 @@ namespace sea_survival.Scripts.CardSystem
 {
     public class Card : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
-        [Header("카드 UI 요소")]
-        [SerializeField] private Image cardBackground;
+        [Header("카드 UI 요소")] [SerializeField] private Image cardBackground;
         [SerializeField] private Image cardImage;
-        [SerializeField] private Text cardNameText;
-        [SerializeField] private Text cardDescriptionText;
-        
-        [Header("카드 애니메이션")]
-        [SerializeField] private float hoverScaleMultiplier = 1.1f;
+        [SerializeField] private TextMeshProUGUI cardNameText;
+        [SerializeField] private TextMeshProUGUI cardDescriptionText;
+
+        [Header("카드 애니메이션")] [SerializeField] private float hoverScaleMultiplier = 1.1f;
         [SerializeField] private float animationDuration = 0.2f;
-        
+
         private CardData _cardData;
         private Vector3 _originalScale;
         private RectTransform _rectTransform;
-        
+
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
             _originalScale = _rectTransform.localScale;
         }
-        
+
         // 카드 데이터 설정
         public void SetCardData(CardData cardData)
         {
             _cardData = cardData;
             UpdateCardUI();
         }
-        
+
         // 카드 UI 업데이트
         private void UpdateCardUI()
         {
             if (_cardData == null) return;
-            
+
             // 카드 정보 설정
+            Debug.Log(cardNameText);
+            Debug.Log(_cardData);
             cardNameText.text = _cardData.cardName;
             cardDescriptionText.text = _cardData.GetDescription();
-            
+
             // 카드 이미지 설정
             if (_cardData.cardImage != null)
             {
@@ -56,31 +56,31 @@ namespace sea_survival.Scripts.CardSystem
                 cardImage.enabled = false;
             }
         }
-        
+
         // 카드 클릭 이벤트
         public void OnPointerClick(PointerEventData eventData)
         {
             // 카드 매니저를 통해 카드 선택 처리
             CardManager.Ins.SelectCard(_cardData);
         }
-        
+
         // 마우스 진입 시 카드 확대
         public void OnPointerEnter(PointerEventData eventData)
         {
             _rectTransform.localScale = _originalScale * hoverScaleMultiplier;
         }
-        
+
         // 마우스 이탈 시 카드 원래 크기로
         public void OnPointerExit(PointerEventData eventData)
         {
             _rectTransform.localScale = _originalScale;
         }
-        
+
         // 카드 효과 적용
         public void ApplyCardEffect()
         {
             if (_cardData == null) return;
-            
+
             if (_cardData.IsWeaponCard())
             {
                 // 무기 카드 효과 적용
@@ -90,7 +90,7 @@ namespace sea_survival.Scripts.CardSystem
             {
                 // 스탯 카드 효과 적용
                 Player player = Player.Ins;
-                
+
                 switch (_cardData.statType)
                 {
                     case Enums.StatType.MoveSpeed:

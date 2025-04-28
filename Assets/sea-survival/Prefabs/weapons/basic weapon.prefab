@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e85e99a6fc641843be1813ec927fda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponType: 0
+  weaponType: 1
   currentLevel: 1
   baseAttackInterval: 1.5
   baseDamage: 10
@@ -52,3 +52,9 @@ MonoBehaviour:
   baseHeight: 0.67
   attackEffectPrefab: {fileID: 8032199095379953622, guid: 4ea764b4d254cbf438a01f69e2a22ae8, type: 3}
   penetrateEnemies: 0
+  rectangleAttack:
+    damage: 0
+    width: 0
+    height: 0
+    effectPrefab: {fileID: 0}
+  originalEffectScale: {x: 1, y: 1, z: 1}

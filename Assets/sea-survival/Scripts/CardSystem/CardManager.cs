@@ -173,7 +173,7 @@ namespace sea_survival.Scripts.CardSystem
                     card.cardName = "전기 오브";
                     card.description = "플레이어 주변을 회전하는 전기 구체";
                     break;
-                case WeaponType.SonicWave:
+                case WeaponType.SoundWave:
                     card.cardName = "음파 폭발";
                     card.description = "일정 시간마다 주변으로 원형 파동 방출";
                     break;

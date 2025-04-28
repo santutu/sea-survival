@@ -59,6 +59,12 @@ namespace sea_survival.Scripts.Players
             SetAnimation(AnimState.IsMoving, isMoving);
             SetAnimation(AnimState.IsIdle, !isMoving);
 
+            // HP 재생 적용 (초당)
+            if (hpRegen > 0 && hp < maxHp)
+            {
+                hp = Mathf.Min(hp + (hpRegen * Time.deltaTime), maxHp);
+            }
+
             healthBarImage.fillAmount = HpPercent;
 
             // 무적 시간 처리

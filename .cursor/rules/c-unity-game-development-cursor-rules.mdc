@@ -1,5 +1,5 @@
 ---
-description: c# 유니티 게임 개발 cursor rules.
+description: c# 코드 수정 및 삽입, 추가할 때 참고합니다.
 globs: 
 alwaysApply: false
 ---
@@ -11,16 +11,18 @@ Unity Editor Version: 6000.0.30f1
 
 # 지침
 베스트 솔루션으로 해결하는 것을 지향합니다.
+이미 있는 재사용 가능한 모듈이나 라이브러리 사용을 지향합니다.
+코드 가독성과 모듈화를 지향합니다.
 
 ## TryGetComponent
-GetComponent 메소드와 null 체크를 사용할 경우 TryGetComponent 를 사용하는걸 지향합니다.
+GetComponent 메소드와 함께 null 체크를 사용할 경우 대신 TryGetComponent 메소드를 사용하는걸 지향합니다.
 
 ## null 체크
-가독성을 위해  꼭 필요할 때만 null 체크를 하는걸 지향합니다.
-null 체크할 때 early return 이 가독성이 좋다고 판단되면 early return 을 사용을 지향합니다.
+가독성을 위해 꼭 필요할 때만 null 체크를 하는걸 지향합니다.
+null 체크할 때 early return 이 가독성이 좋다고 판단되면 early return 사용을 지향합니다.
 
 ## 유니티에서 설정 방법 가이드.txt 파일
-코드 작성 후, 유저에게 유니티에서의 설정 방법을 제공해야 된다고 판단되면, 설정 가이드를 txt 파일로 저장하세요. 저장 경로폴더는"/Assets/dev_doc/" 입니다.
+코드 작성 후, 유저에게 유니티에서의 설정 방법을 제공해야 된다고 판단되면, 설정 가이드를 txt 파일로 저장하세요. 저장 경로폴더는"/Assets/dev_doc/guids/" 입니다.
 
 ## 라이브러리
 아래 라이브러리가 설치되어 있습니다. 
@@ -30,19 +32,19 @@ null 체크할 때 early return 이 가독성이 좋다고 판단되면 early re
 3. 그 외에 적절하다고 임의로 적절하다고 판단될 때 
 
 
-##### Santutu
+### Santutu
 위치 : Assets/Santutu/
 설명 : 기본적인 유니티 게임 구현을 위해 작성한 코어 라이브러리
 
-##### Cysharp/UniTask
+### Cysharp/UniTask
 깃허브 링크: https://github.com/Cysharp/UniTask
 설명 : 유니티 비동기 프로그래밍을 위한 라이브러리
 
-#### Cysharp/R3
+### Cysharp/R3
 깃허브 링크 : https://github.com/Cysharp/R3
 설명 : 유니티 리액티브 프로그래밍을 위한 라이브러리
 
-#### Sirenix.OdinInspector
+### Sirenix.OdinInspector
 사용지침:
 1. 테스트에 용이한 메소드들은 [Button] 어트리뷰트를 사용하여 인스펙터에서 유저가 에디터에서 쉽게 사용할 수 있도록 하세요.
 2. 인스펙터의 ux 를 향상시키기 위해서 OdinInspector 사용을 지향하세요. (꼭 필요한 곳에서만 사용하고, 남용하지는 마세요.)

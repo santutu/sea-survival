@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc414737775b48f44829c8513bb238d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponType: 0
+  weaponType: 2
   currentLevel: 1
   baseAttackInterval: 1.5
   baseDamage: 15
