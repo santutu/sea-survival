@@ -25,7 +25,7 @@ namespace sea_survival.Scripts.Players
 
         private Player Player => Player.Ins;
 
-        private void Awake()
+        protected override void Awake()
         {
             // 기본 경험치 테이블 설정 (설정되지 않은 경우)
             if (expRequiredForLevel == null || expRequiredForLevel.Length == 0)
@@ -38,7 +38,7 @@ namespace sea_survival.Scripts.Players
         {
             // 초기 경험치 이벤트 발생
             onExpGained.Invoke(currentExp, GetExpRequiredForNextLevel());
-            
+
             // 레벨업 이벤트에 카드 선택 UI 표시 함수 연결
             onLevelUp.AddListener(OnPlayerLevelUp);
         }
@@ -104,14 +104,6 @@ namespace sea_survival.Scripts.Players
         private void OnPlayerLevelUp(int newLevel)
         {
             Debug.Log($"플레이어 레벨업! 새 레벨: {newLevel}");
-            
-            // 레벨업 효과음, 이펙트 등 추가 가능
-            
-            // 레벨업 시 카드 선택 UI 표시
-            if (CardManager.Instance != null)
-            {
-                CardManager.Instance.ShowLevelUpCardSelection();
-            }
         }
 
         // 다음 레벨에 필요한 경험치 반환
