@@ -1,4 +1,5 @@
 using Santutu.Core.Base.Runtime.Singletons;
+using sea_survival.Scripts.Players;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -133,6 +134,7 @@ namespace sea_survival.Scripts.StageSystem
         public void GameOver()
         {
             gameOverPanel.SetActive(true);
+            Player.Ins.enabled = false;
 
             // 현재 스테이지 종료
             if (_currentState != null)
@@ -140,8 +142,6 @@ namespace sea_survival.Scripts.StageSystem
                 _currentState.OnExit();
                 _currentState = null;
             }
-
-            Time.timeScale = 0f; // 게임 일시 정지
         }
 
         // 게임 승리 처리

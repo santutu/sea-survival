@@ -10,7 +10,7 @@ namespace sea_survival.Scripts.Weapons
         [Header("단검 설정")]
         [SerializeField] private float baseDamage = 8f;
         [SerializeField] private float daggerSpeed = 8f;
-        [SerializeField] private float daggerLifetime = 1.5f;
+        [SerializeField] private float daggerLifetime = 3.0f; // 단검이 자동으로 파괴되는 시간(초)
         [SerializeField] private GameObject daggerPrefab;
         [SerializeField] private float fireRate = 1.5f; // 발사 간격
         [SerializeField] private float criticalChance = 0f; // 크리티컬 확률 (레벨 3에서 30%)
@@ -49,7 +49,7 @@ namespace sea_survival.Scripts.Weapons
             // 단검 초기화
             controller.Initialize(damage, direction, daggerSpeed, daggerLifetime, isCritical);
             
-            // 일정 시간 후 단검 제거
+            // 일정 시간 후 단검 제거 (아무것도 맞추지 않아도 daggerLifetime 후 파괴됨)
             Destroy(dagger, daggerLifetime);
         }
         
@@ -169,6 +169,13 @@ namespace sea_survival.Scripts.Weapons
                 // 단검 회전 설정
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                
+                // 왼쪽 방향으로 발사될 때 위아래 뒤집기
+                if (direction.x < 0)
+                {
+                    // Y축을 기준으로 180도 회전하면 위아래가 뒤집힘
+                    transform.localScale = new Vector3(transform.localScale.x, -transform.localScale.y, transform.localScale.z);
+                }
                 
                 // 크리티컬 효과 적용 (예: 색상 변경)
                 if (isCritical)

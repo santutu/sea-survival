@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: "\uBD80\uBA54\uB791"
   description: 
-  cardImage: {fileID: 4668938655123782945, guid: c0fa2008dfcbee24389f92eb339a9e16, type: 3}
+  cardImage: {fileID: 21300000, guid: fb2acd264db5e24428dbf84cf8f0f467, type: 3}
   cardType: 0
   weaponType: 4
   statType: 0

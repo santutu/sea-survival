@@ -111,8 +111,6 @@ namespace sea_survival.Scripts.CardSystem
         // 카드 효과 적용
         public void ApplyCardEffect()
         {
-            if (cardData == null) return;
-
             if (cardData.IsWeaponCard())
             {
                 // 무기 카드 효과 적용

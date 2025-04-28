@@ -51,10 +51,9 @@ namespace sea_survival.Scripts.Players
         {
             expRequiredForLevel = new int[maxLevel];
 
-            // 레벨별 필요 경험치 계산 (예: 100, 200, 350, 550, 800, ...)
             for (int i = 0; i < maxLevel; i++)
             {
-                expRequiredForLevel[i] = 100 + (i * 50) + (i * i * 25);
+                expRequiredForLevel[i] = 100 + (i * 50);
             }
         }
 

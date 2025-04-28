@@ -48,7 +48,7 @@ MonoBehaviour:
   currentLevel: 1
   baseAttackInterval: 1.5
   baseDamage: 15
-  baseRadius: 3
+  baseRadius: 1.2
   waveEffectPrefab: {fileID: 3074960471683761173, guid: 2a387be7e8495dd4d867d31ca15667c0, type: 3}
   baseAttackDelay: 5
   slowEffectDuration: 1.5

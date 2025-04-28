@@ -10,19 +10,7 @@ namespace sea_survival.Scripts.Weapons
         [SerializeField] private Transform weaponsParent;
         [SerializeField] private BasicWeapon basicWeaponPrefab;
         [SerializeField] private MagicMissile magicMissilePrefab;
-
-        // 아직 구현되지 않은 무기 프리팹 (주석 처리)
-        /*
-        [SerializeField] private Dagger daggerPrefab;
-        [SerializeField] private Boomerang boomerangPrefab;
-        [SerializeField] private ElectricOrb electricOrbPrefab;
-        [SerializeField] private SonicWave sonicWavePrefab;
-        */
-
-        // 대신 GameObject로 참조하여 에러 방지
-        [Header("추가 무기 프리팹(개발중)")] [SerializeField]
-        private GameObject daggerPrefab;
-
+        [SerializeField] private GameObject daggerPrefab;
         [SerializeField] private GameObject boomerangPrefab;
         [SerializeField] private GameObject electricOrbPrefab;
         [SerializeField] private GameObject sonicWavePrefab;

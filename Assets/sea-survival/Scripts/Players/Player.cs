@@ -1,4 +1,5 @@
-﻿using Santutu.Core.Base.Runtime.Singletons;
+﻿using Cysharp.Threading.Tasks;
+using Santutu.Core.Base.Runtime.Singletons;
 using UnityEngine;
 using UnityEngine.UI;
 using sea_survival.Scripts.Contracts;
@@ -115,6 +116,10 @@ namespace sea_survival.Scripts.Players
         private void Die()
         {
             Debug.Log("플레이어 사망");
+            SetAnimation(AnimState.IsFalling, false);
+            SetAnimation(AnimState.IsIdle, false);
+            SetAnimation(AnimState.IsMoving, false);
+            _animator.SetTrigger("Death");
             StageManager.Ins.GameOver();
         }
     }

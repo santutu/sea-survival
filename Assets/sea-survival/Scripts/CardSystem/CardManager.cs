@@ -93,8 +93,6 @@ namespace sea_survival.Scripts.CardSystem
         // 카드 선택 처리
         public void SelectCard(Card card)
         {
-            if (card == null) return;
-
             _selectedCard = card.cardData;
 
             card.ApplyCardEffect();
