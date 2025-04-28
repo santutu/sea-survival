@@ -14,9 +14,6 @@ namespace sea_survival.Scripts.StageSystem.Stages
             var boss = battleStage.bossPrefab.Instantiate().GetComponent<Boss>();
             boss.transform.position = Player.Ins.transform.position + new Vector3(-5, 0, 0);
             Debug.Log("스테이지 5: 보스 상어 등장 ");
-
-            boss.onDeath.AddListener(() => { StageManager.Ins.BossDefeated(); }
-            );
         }
     }
 }

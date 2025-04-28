@@ -56,5 +56,22 @@ namespace sea_survival.Scripts
             await UniTask.DelayFrame(5);
             warmUpPoint.DestroySelf();
         }
+
+        public void ClearAllEnemiesAndExp()
+        {
+            ClearAllEnemies();
+            foreach (var exp in SceneManagerEx.ActiveScene.GetAllComponents<Exp>())
+            {
+                exp.gameObject.DestroySelf();
+            }
+        }
+
+        public void ClearAllEnemies()
+        {
+            foreach (var enemy in SceneManagerEx.ActiveScene.GetAllComponents<Enemy>())
+            {
+                enemy.gameObject.DestroySelf();
+            }
+        }
     }
 }

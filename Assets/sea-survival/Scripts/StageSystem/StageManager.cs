@@ -86,6 +86,8 @@ namespace sea_survival.Scripts.StageSystem
         // 다음 스테이지로 진행 버튼 클릭 시
         public void StartNextStage()
         {
+            GameManager.Ins.ClearAllEnemiesAndExp();
+
             // 다음 스테이지 버튼 비활성화
             if (nextStageButton != null)
             {
