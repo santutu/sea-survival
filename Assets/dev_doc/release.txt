@@ -1,0 +1,2 @@
+﻿모든 무기 끄기.
+test objects 끄기

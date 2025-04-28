@@ -24,6 +24,7 @@ namespace sea_survival.Scripts.Players
         [Header("이벤트")] public LevelUpEvent onLevelUp = new LevelUpEvent();
         public UnityEvent<int, int> onExpGained = new UnityEvent<int, int>(); // 현재 경험치, 필요 경험치
 
+        
         private Player Player => Player.Ins;
 
         protected override void Awake()
@@ -61,6 +62,11 @@ namespace sea_survival.Scripts.Players
         // 경험치 획득
         public void AddExperience(int amount = 100)
         {
+            if (!enabled)
+            {
+                return;
+            }
+            
             // 최대 레벨에 도달한 경우
             if (currentLevel >= maxLevel)
             {

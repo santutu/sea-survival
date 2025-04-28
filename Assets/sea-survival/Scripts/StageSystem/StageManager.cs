@@ -1,5 +1,7 @@
 using Santutu.Core.Base.Runtime.Singletons;
+using sea_survival.Scripts.Enemies;
 using sea_survival.Scripts.Players;
+using sea_survival.Scripts.Weapons;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -137,6 +139,8 @@ namespace sea_survival.Scripts.StageSystem
         {
             gameOverPanel.SetActive(true);
             Player.Ins.enabled = false;
+            WeaponManager.Ins.gameObject.SetActive(false);
+            PlayerLevelSystem.Ins.enabled = false;
 
             // 현재 스테이지 종료
             if (_currentState != null)
@@ -161,7 +165,8 @@ namespace sea_survival.Scripts.StageSystem
                 _currentState = null;
             }
 
-            Time.timeScale = 0f; // 게임 일시 정지
+            GameManager.Ins.ClearAllEnemies();
+            EnemyAllSpawners.Ins.gameObject.SetActive(false);
         }
 
         // 메인 메뉴로 돌아가기

@@ -1121,7 +1121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetScene: {fileID: 11400000, guid: 7982a7dba60f998409be01a13de5c6dd, type: 2}
-  isEnable: 0
+  isEnable: 1
 --- !u!4 &1144423137
 Transform:
   m_ObjectHideFlags: 0
@@ -34576,7 +34576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &7271362813358107531
 GameObject:
   m_ObjectHideFlags: 0
