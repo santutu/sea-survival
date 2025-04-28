@@ -120,7 +120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5852190322102861913}
   m_Layer: 0
-  m_Name: default attack vfx
+  m_Name: basic attack vfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

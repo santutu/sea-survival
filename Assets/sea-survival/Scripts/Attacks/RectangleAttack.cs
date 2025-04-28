@@ -3,6 +3,7 @@ using sea_survival.Scripts.Contracts;
 using sea_survival.Scripts.Enemies;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using System.Collections.Generic;
 
 namespace sea_survival.Scripts.Attacks
 {
@@ -17,6 +18,18 @@ namespace sea_survival.Scripts.Attacks
         [SerializeField] private float height;
         [SerializeField] private GameObject effectPrefab;
 
+        // 기본 크기 저장용 변수
+        private Vector3 defaultEffectScale = Vector3.one;
+        private bool isDefaultScaleSet = false;
+
+        // 기준 크기 (초기화 시 설정)
+        private float baseWidth = 1f;
+        private float baseHeight = 1f;
+        private bool isBaseSet = false;
+
+        // 이미 타격한 대상을 추적하기 위한 HashSet
+        private HashSet<GameObject> hitGameObjects = new HashSet<GameObject>();
+
         // 생성자
         public RectangleAttack(float damage, float width, float height, GameObject effectPrefab = null)
         {
@@ -24,6 +37,21 @@ namespace sea_survival.Scripts.Attacks
             this.width = width;
             this.height = height;
             this.effectPrefab = effectPrefab;
+
+            // 기준 크기 설정 (처음 생성 시만)
+            if (!isBaseSet)
+            {
+                baseWidth = width;
+                baseHeight = height;
+                isBaseSet = true;
+            }
+
+            // 이펙트 프리팹이 있으면 기본 스케일 설정
+            if (effectPrefab != null && !isDefaultScaleSet)
+            {
+                defaultEffectScale = effectPrefab.transform.localScale;
+                isDefaultScaleSet = true;
+            }
         }
 
         // 공격 실행
@@ -37,12 +65,40 @@ namespace sea_survival.Scripts.Attacks
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             Quaternion rotation = Quaternion.Euler(0, 0, angle);
 
+            // 공격 시작 시 히트 GameObjects 초기화
+            hitGameObjects.Clear();
+
             // 공격 이펙트 생성
             if (effectPrefab != null)
             {
                 GameObject effect = Object.Instantiate(effectPrefab, center, rotation);
-                // 사각형 이펙트에 맞게 크기 조정이 필요할 수 있음
-                Object.Destroy(effect, 1f); // 1초 후 이펙트 제거
+
+                // 이펙트 기본 스케일 확인 및 설정
+                if (!isDefaultScaleSet)
+                {
+                    defaultEffectScale = effectPrefab.transform.localScale;
+                    isDefaultScaleSet = true;
+                }
+
+                // 공격 범위에 맞게 이펙트 크기 조정
+                if (effect != null)
+                {
+                    // 현재 너비/높이와 기준 너비/높이의 비율 계산
+                    float scaleX = width / baseWidth;
+                    float scaleY = height / baseHeight;
+
+                    // 정확한 스케일 적용
+                    Vector3 newScale = new Vector3(
+                        defaultEffectScale.x * scaleX,
+                        defaultEffectScale.y * scaleY,
+                        defaultEffectScale.z
+                    );
+
+                    effect.transform.localScale = newScale;
+                }
+
+                // 1초 후 이펙트 제거
+                Object.Destroy(effect, 1f);
             }
 
             // 사각형 영역 내 대상 검출
@@ -51,9 +107,9 @@ namespace sea_survival.Scripts.Attacks
             // 대상에게 데미지 적용
             foreach (Collider2D target in hitTargets)
             {
-                if (target.CompareTag(targetTag))
+                if (target.CompareTag(targetTag) && !hitGameObjects.Contains(target.gameObject))
                 {
-                    // IDamageable 인터페이스가 있다면 사용할 수 있도록
+                    hitGameObjects.Add(target.gameObject);
                     IDamageable damageableTarget = target.GetComponent<IDamageable>();
                     if (damageableTarget != null)
                     {
@@ -83,15 +139,42 @@ namespace sea_survival.Scripts.Attacks
 
             // 회전된 사각형 그리기
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
+            // 확장 메서드를 사용하여 회전된 와이어 큐브 그리기
+            GizmosExtensions.DrawWireCube(center, new Vector3(width, height, 0.1f), rotation);
+        }
+
+        // 이펙트 프리팹의 기본 스케일 설정 메서드 (외부에서 직접 호출하여 설정 가능)
+        public void SetDefaultEffectScale(Vector3 scale)
+        {
+            defaultEffectScale = scale;
+            isDefaultScaleSet = true;
+        }
+
+        // 기준 너비/높이 설정 메서드
+        public void SetBaseSize(float baseW, float baseH)
+        {
+            baseWidth = baseW;
+            baseHeight = baseH;
+            isBaseSet = true;
+        }
+
+        // 현재 공격 속성에 접근하기 위한 프로퍼티
+        public float Width { get { return width; } }
+        public float Height { get { return height; } }
+        public float Damage { get { return damage; } }
+    }
+
+    // Gizmos 확장 메서드 클래스
+    public static class GizmosExtensions
+    {
+        // 회전된 와이어 큐브 그리기
+        public static void DrawWireCube(Vector3 position, Vector3 size, Quaternion rotation)
+        {
             Matrix4x4 originalMatrix = Gizmos.matrix;
-
-            // 회전 적용
-            Gizmos.matrix = Matrix4x4.TRS(center, Quaternion.Euler(0, 0, angle), Vector3.one);
-
-            // 사각형 그리기 (중심이 center이므로 좌표는 상대적으로 (0,0,0))
-            Gizmos.DrawWireCube(Vector3.zero, new Vector3(width, height, 0));
-
-            // 원래 매트릭스로 복원
+            Gizmos.matrix = Matrix4x4.TRS(position, rotation, Vector3.one);
+            Gizmos.DrawWireCube(Vector3.zero, size);
             Gizmos.matrix = originalMatrix;
         }
     }

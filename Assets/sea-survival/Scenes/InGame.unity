@@ -12499,10 +12499,10 @@ GameObject:
   - component: {fileID: 7642051402945069826}
   - component: {fileID: 3974097371442592991}
   - component: {fileID: 4691911425225394429}
+  - component: {fileID: 8275200530655277800}
   - component: {fileID: 3435763855207110321}
   - component: {fileID: 4911892645511484820}
   - component: {fileID: 6858490524606267739}
-  - component: {fileID: 8275200530655277800}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -22383,7 +22383,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8442486762759111755, guid: d8c9efa05cfeb7e40b9865f27dfc974b, type: 3}
       propertyPath: m_BlockingMask.m_Bits
-      value: 4294967295
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 8604854370572066973, guid: d8c9efa05cfeb7e40b9865f27dfc974b, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag

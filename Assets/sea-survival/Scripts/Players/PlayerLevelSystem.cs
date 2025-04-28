@@ -1,6 +1,7 @@
 using System;
 using Santutu.Core.Base.Runtime.Singletons;
 using sea_survival.Scripts.CardSystem;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -57,8 +58,9 @@ namespace sea_survival.Scripts.Players
             }
         }
 
+        [Button]
         // 경험치 획득
-        public void AddExperience(int amount)
+        public void AddExperience(int amount = 100)
         {
             // 최대 레벨에 도달한 경우
             if (currentLevel >= maxLevel)
@@ -121,13 +123,13 @@ namespace sea_survival.Scripts.Players
         {
             return GetExpRequiredForNextLevel() - currentExp;
         }
-        
+
         // 현재 레벨 진행률 (0.0 ~ 1.0)
         public float GetLevelProgress()
         {
             int expRequired = GetExpRequiredForNextLevel();
             if (expRequired <= 0) return 1f;
-            
+
             return (float)currentExp / expRequired;
         }
 
@@ -143,11 +145,7 @@ namespace sea_survival.Scripts.Players
             // 예: 레벨업 효과음 재생, 레벨업 이펙트 표시 등
 
             // 플레이어 일부 회복
-            if (Player != null)
-            {
-                Player.hp += Player.maxHp * 0.2f; // 최대 체력의 20% 회복
-                Player.hp = Mathf.Min(Player.hp, Player.maxHp); // 최대 체력 초과하지 않도록
-            }
+            Player.hp += Player.maxHp * 0.2f; // 최대 체력의 20% 회복
         }
     }
 }
