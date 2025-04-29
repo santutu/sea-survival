@@ -9,7 +9,8 @@ namespace sea_survival.Scripts.Players
 {
     public class Player : SingletonMonoBehaviour<Player>, IDamageable
     {
-        public float moveSpeed = 5f;
+        [SerializeField] public float moveSpeed = 5f;
+        [SerializeField] public float breathingMoveSpeedMultiplier = 0.5f; // 숨쉬기 모드에서의 이동속도 배율
 
         [SerializeField] public float hp;
         [SerializeField] public float hpRegen = 0;
@@ -19,6 +20,17 @@ namespace sea_survival.Scripts.Players
 
         [Header("피격 효과")][SerializeField] private GameObject hitEffectPrefab;
         [SerializeField] private float invincibilityTime = 0.5f;
+
+        [Header("산소 시스템")]
+        [SerializeField] private float maxOxygen = 100f;
+        [SerializeField] private float currentOxygen;
+        [SerializeField] private float oxygenDecreaseRate = 10f; // 초당 감소량
+        [SerializeField] private float oxygenIncreaseRate = 20f; // 초당 증가량
+        [SerializeField] private float oxygenDamageRate = 10f; // 산소 없을 때 초당 데미지
+        [SerializeField] private Image oxygenBarImage;
+        [SerializeField] private Transform waterLine1; // 1번 선 위치
+        [SerializeField] private Transform waterLine2; // 2번 선 위치
+        [SerializeField] private Rigidbody2D blockUpper; // 2번 선 위치
 
         private Rigidbody2D _rb;
         public Animator animator;
@@ -33,12 +45,20 @@ namespace sea_survival.Scripts.Players
 
         public Vector2 Direction => _spriteRenderer.flipX ? Vector2.left : Vector2.right;
 
+        private bool isBreathing = false;
+        private bool canBreath = false;
+
         protected override void Awake()
         {
             base.Awake();
             _rb = GetComponent<Rigidbody2D>();
             animator = GetComponentInChildren<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        private void Start()
+        {
+            currentOxygen = maxOxygen;
         }
 
         public void SetAnimation(AnimState state, bool active)
@@ -48,9 +68,56 @@ namespace sea_survival.Scripts.Players
 
         private void Update()
         {
+            // 1번 선 위에 있는지 체크
+            canBreath = transform.position.y >= waterLine1.position.y;
+
+            // 스페이스바 입력 처리
+            if (Input.GetKeyDown(KeyCode.Space) && canBreath)
+            {
+                isBreathing = !isBreathing;
+                if (isBreathing)
+                {
+                    // 숨쉬기 모드 진입
+                    blockUpper.gameObject.SetActive(false);
+                    transform.position = new Vector3(transform.position.x, waterLine2.position.y, transform.position.z);
+                }
+                else
+                {
+                    blockUpper.gameObject.SetActive(true);
+                }
+            }
+
+            // 이동 입력 처리
             float moveX = Input.GetAxisRaw("Horizontal");
-            float moveY = Input.GetAxisRaw("Vertical");
+            float moveY = isBreathing ? 0 : Input.GetAxisRaw("Vertical");
             InputVec = new Vector2(moveX, moveY);
+
+            // 숨쉬기 모드일 때 Y 위치 고정
+            if (isBreathing)
+            {
+                transform.position = new Vector3(transform.position.x, waterLine2.position.y, transform.position.z);
+            }
+
+            // 산소 게이지 처리
+            if (isBreathing)
+            {
+                currentOxygen = Mathf.Min(currentOxygen + (oxygenIncreaseRate * Time.deltaTime), maxOxygen);
+            }
+            else
+            {
+                currentOxygen = Mathf.Max(currentOxygen - (oxygenDecreaseRate * Time.deltaTime), 0);
+                if (currentOxygen <= 0)
+                {
+                    TakeDamage(oxygenDamageRate * Time.deltaTime);
+                }
+            }
+
+            // 산소 게이지 UI 업데이트
+            if (oxygenBarImage != null)
+            {
+                oxygenBarImage.fillAmount = currentOxygen / maxOxygen;
+            }
+
             MoveDirection = InputVec.normalized;
 
             if (moveX != 0)
@@ -58,7 +125,7 @@ namespace sea_survival.Scripts.Players
                 _spriteRenderer.flipX = moveX < 0;
             }
 
-            var isMoving = MoveDirection.magnitude > 0;
+            var isMoving = MoveDirection.magnitude > 0 && !isBreathing;
             SetAnimation(AnimState.IsMoving, isMoving);
             SetAnimation(AnimState.IsIdle, !isMoving);
 
@@ -91,7 +158,13 @@ namespace sea_survival.Scripts.Players
 
         private void FixedUpdate()
         {
-            Vector2 nextVec = MoveDirection * moveSpeed * Time.fixedDeltaTime;
+            float currentMoveSpeed = moveSpeed;
+            if (isBreathing)
+            {
+                currentMoveSpeed *= breathingMoveSpeedMultiplier;
+            }
+            
+            Vector2 nextVec = MoveDirection * currentMoveSpeed * Time.fixedDeltaTime;
             _rb.MovePosition(_rb.position + nextVec);
         }
 
