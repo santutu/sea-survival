@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace sea_survival.Scripts.StageSystem
 {
-    public class BattleStage : StageState
+    public class BattleStageState : StageState
     {
         [Header("스테이지 설정")][SerializeField] private float stageTime = 60f; // 전투 단계 시간
 

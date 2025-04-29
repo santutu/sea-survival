@@ -5,7 +5,7 @@ namespace sea_survival.Scripts.StageSystem.Stages
 {
     public class Lv3 : IStageLevel
     {
-        public void SetupEnemies(BattleStage battleStage)
+        public void SetupEnemies(BattleStageState battleStage)
         {
             var waveSpawner = WaveSpawner.Ins;
             waveSpawner.gameObject.SetActive(true);

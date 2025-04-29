@@ -14,8 +14,8 @@ namespace sea_survival.Scripts.StageSystem
         [SerializeField] private GameObject nextStageButton;
         [SerializeField] private GameObject gameOverPanel;
         [SerializeField] private GameObject victoryPanel;
-        [Header("스테이지 상태")][SerializeField] private BattleStage battleStage;
-        [SerializeField] private RestStage restStage;
+        [Header("스테이지 상태")][SerializeField] private BattleStageState battleStage;
+        [SerializeField] private RestState restStage;
 
         [Header("포탈")][SerializeField] private GameObject portalPrefab;
 

@@ -5,7 +5,7 @@ namespace sea_survival.Scripts.StageSystem.Stages
 {
     public class Lv4 : IStageLevel
     {
-        public void SetupEnemies(BattleStage battleStage)
+        public void SetupEnemies(BattleStageState battleStage)
         {
             EnemyAllSpawners.Ins.spawner[2].gameObject.SetActive(true);
             Debug.Log("스테이지 4: 상어 등장");

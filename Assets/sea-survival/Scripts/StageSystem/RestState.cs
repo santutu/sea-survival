@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace sea_survival.Scripts.StageSystem
 {
-    public class RestStage : StageState
+    public class RestState : StageState
     {
         [Header("휴식 설정")] [SerializeField] private float healAmount = 10f; // 초당 회복량
 

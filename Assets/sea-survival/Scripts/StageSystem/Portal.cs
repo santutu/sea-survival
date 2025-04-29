@@ -43,7 +43,7 @@ namespace sea_survival.Scripts.StageSystem
             }
 
             // BattleStage에 플레이어 포탈 진입 알림
-            BattleStage battleStage = FindObjectOfType<BattleStage>();
+            BattleStageState battleStage = FindObjectOfType<BattleStageState>();
             if (battleStage != null)
             {
               

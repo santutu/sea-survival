@@ -9,7 +9,7 @@ namespace sea_survival.Scripts.StageSystem.Stages
 {
     public class Lv5 : IStageLevel
     {
-        public void SetupEnemies(BattleStage battleStage)
+        public void SetupEnemies(BattleStageState battleStage)
         {
             var boss = battleStage.bossPrefab.Instantiate().GetComponent<Boss>();
             boss.transform.position = Player.Ins.transform.position + new Vector3(-5, 0, 0);
