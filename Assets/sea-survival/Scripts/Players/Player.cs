@@ -12,6 +12,11 @@ namespace sea_survival.Scripts.Players
         [SerializeField] public float moveSpeed = 5f;
         [SerializeField] public float breathingMoveSpeedMultiplier = 0.5f; // 숨쉬기 모드에서의 이동속도 배율
 
+        public float speedmultiplyModifier = 1f;
+      
+
+        public float CurrentMoveSpeed => moveSpeed * speedmultiplyModifier;
+
         [SerializeField] public float hp;
         [SerializeField] public float hpRegen = 0;
         [SerializeField] public float maxHp;
@@ -158,7 +163,7 @@ namespace sea_survival.Scripts.Players
 
         private void FixedUpdate()
         {
-            float currentMoveSpeed = moveSpeed;
+            float currentMoveSpeed = CurrentMoveSpeed;
             if (isBreathing)
             {
                 currentMoveSpeed *= breathingMoveSpeedMultiplier;

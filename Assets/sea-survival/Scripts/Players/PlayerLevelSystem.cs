@@ -54,7 +54,7 @@ namespace sea_survival.Scripts.Players
 
             for (int i = 0; i < maxLevel; i++)
             {
-                expRequiredForLevel[i] = 100 + (i * 50);
+                expRequiredForLevel[i] = 100 + (i * 25);
             }
         }
 

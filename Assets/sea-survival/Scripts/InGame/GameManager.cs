@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Santutu.Core.Base.Runtime.Singletons;
 using Santutu.Core.Extensions.Runtime.UnityExtensions;
 using Santutu.Core.Extensions.Runtime.UnityStaticExtensions;
+using sea_survival.Assets.sea_survival.Scripts.Enemies;
 using sea_survival.Scripts.Enemies;
 using sea_survival.Scripts.Players;
 using sea_survival.Scripts.StageSystem;
@@ -41,6 +42,7 @@ namespace sea_survival.Scripts
         private void StartGame()
         {
             StageManager.Ins.gameObject.SetActive(false);
+            WaterCurrentManager.Ins.gameObject.SetActive(false);
             FallingCinematicManager.Ins.StartCinematic();
         }
 
@@ -58,6 +60,13 @@ namespace sea_survival.Scripts
             warmUpPoint.DestroySelf();
         }
 
+        public void ClearAllPortal()
+        {
+            foreach (var portal in SceneManagerEx.ActiveScene.GetAllComponents<Portal>())
+            {
+                portal.gameObject.DestroySelf();
+            }
+        }
         public void ClearAllEnemiesAndExp()
         {
             ClearAllEnemies();
