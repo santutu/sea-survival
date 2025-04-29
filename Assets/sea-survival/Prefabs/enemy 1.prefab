@@ -106,7 +106,7 @@ MonoBehaviour:
   maxHealth: 10
   currentHealth: 0
   expPrefab: {fileID: 3231776205118448132, guid: 7e96597644ce3a24f91e37cf4495e853, type: 3}
-  expAmount: 10
+  expAmount: 15
   expDropChance: 1
   damageToPlayer: 2
   knockbackForce: 0.2

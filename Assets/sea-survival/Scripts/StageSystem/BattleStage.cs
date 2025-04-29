@@ -107,7 +107,6 @@ namespace sea_survival.Scripts.StageSystem
             stageText.text = string.Format(stageFormat, StageManager.CurrentStageLv);
         }
 
-
         // 포탈 진입 감지 (콜라이더 트리거에서 호출)
         public void OnPlayerEnterPortal()
         {

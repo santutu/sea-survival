@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fea10fb6530d4b2680dfa430651a5b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  expValue: 17
+  expValue: 34
   moveSpeed: 1.3
   collectDistance: 0.2
   attractDistance: 0.4

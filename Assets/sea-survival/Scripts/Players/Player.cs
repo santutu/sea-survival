@@ -108,7 +108,7 @@ namespace sea_survival.Scripts.Players
                 currentOxygen = Mathf.Max(currentOxygen - (oxygenDecreaseRate * Time.deltaTime), 0);
                 if (currentOxygen <= 0)
                 {
-                    TakeDamage(oxygenDamageRate * Time.deltaTime);
+                    TakeOxygenDamage(oxygenDamageRate * Time.deltaTime);
                 }
             }
 
@@ -163,7 +163,7 @@ namespace sea_survival.Scripts.Players
             {
                 currentMoveSpeed *= breathingMoveSpeedMultiplier;
             }
-            
+
             Vector2 nextVec = MoveDirection * currentMoveSpeed * Time.fixedDeltaTime;
             _rb.MovePosition(_rb.position + nextVec);
         }
@@ -188,13 +188,25 @@ namespace sea_survival.Scripts.Players
             }
         }
 
+        // 산소 부족으로 인한 데미지는 무적을 무시
+        private void TakeOxygenDamage(float damage)
+        {
+            hp -= damage;
+
+            if (hp <= 0)
+            {
+                Die();
+            }
+        }
+
         private void Die()
         {
             Debug.Log("플레이어 사망");
             SetAnimation(AnimState.IsFalling, false);
             SetAnimation(AnimState.IsIdle, false);
             SetAnimation(AnimState.IsMoving, false);
-            animator.SetTrigger("Death");
+            animator.enabled = false;
+            // animator.SetTrigger("Death");
             StageManager.Ins.GameOver();
         }
     }
