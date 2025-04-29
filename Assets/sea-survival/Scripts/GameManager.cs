@@ -40,6 +40,7 @@ namespace sea_survival.Scripts
 
         private void StartGame()
         {
+            StageManager.Ins.gameObject.SetActive(false);
             FallingCinematicManager.Ins.StartCinematic();
         }
 

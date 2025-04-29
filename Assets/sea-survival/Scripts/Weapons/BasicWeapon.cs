@@ -93,15 +93,7 @@ namespace sea_survival.Scripts.Weapons
         // 플레이어가 바라보는 방향 가져오기
         private Vector2 GetAttackDirection()
         {
-            if (Player == null) return Vector2.right;
-
-            SpriteRenderer playerSprite = Player.GetComponent<SpriteRenderer>();
-            if (playerSprite != null)
-            {
-                return playerSprite.flipX ? Vector2.left : Vector2.right;
-            }
-
-            return Vector2.right;
+            return Player.Direction;
         }
 
         // 레벨업 시 추가 효과 적용

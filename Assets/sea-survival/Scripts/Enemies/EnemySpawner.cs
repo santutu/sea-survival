@@ -1,22 +1,32 @@
 using System.Collections.Generic;
 using Santutu.Core.Base.Runtime.Singletons;
+using Santutu.Core.GameObjectTraveler.Runtime;
 using sea_survival.Scripts.Players;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace sea_survival.Scripts.Enemies
 {
     public class EnemySpawner : MonoBehaviour
     {
-        [Header("적 생성 설정")] [SerializeField] private GameObject[] enemyPrefabs;
+        [SerializeField, ReadOnly] private List<Transform> spawnPoints = new();
+        [SerializeField] private GameObject spawnPoint;
+
+        [Header("적 생성 설정")][SerializeField] private GameObject[] enemyPrefabs;
         [SerializeField] private float spawnRate = 1f;
-        [SerializeField] private float minSpawnDistance = 10f;
-        [SerializeField] private float maxSpawnDistance = 15f;
         [SerializeField] private int maxEnemies = 50;
 
         private Player Player => Player.Ins;
         private float _nextSpawnTime = 0f;
         private List<GameObject> _activeEnemies = new List<GameObject>();
 
+        private void Awake()
+        {
+            foreach (var item in spawnPoint.Children())
+            {
+                spawnPoints.Add(item.transform);
+            }
+        }
 
         private void Update()
         {
@@ -38,15 +48,14 @@ namespace sea_survival.Scripts.Enemies
 
         private void SpawnEnemy()
         {
-            if (enemyPrefabs.Length == 0 || Player == null) return;
+            if (enemyPrefabs.Length == 0 || Player == null || spawnPoints.Count == 0) return;
 
-            Vector2 spawnDirection = Random.insideUnitCircle.normalized;
-            float spawnDistance = Random.Range(minSpawnDistance, maxSpawnDistance);
-            Vector3 spawnPosition = Player.transform.position + new Vector3(spawnDirection.x, spawnDirection.y, 0) * spawnDistance;
+            // 랜덤한 스폰 포인트 선택
+            Transform selectedSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+            Vector3 spawnPosition = selectedSpawnPoint.position;
 
             GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
             GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-
 
             _activeEnemies.Add(enemy);
         }

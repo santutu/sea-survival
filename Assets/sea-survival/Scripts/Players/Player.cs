@@ -17,11 +17,11 @@ namespace sea_survival.Scripts.Players
         [SerializeField] public float HpPercent => hp / maxHp;
         [SerializeField] public Image healthBarImage;
 
-        [Header("피격 효과")] [SerializeField] private GameObject hitEffectPrefab;
+        [Header("피격 효과")][SerializeField] private GameObject hitEffectPrefab;
         [SerializeField] private float invincibilityTime = 0.5f;
 
         private Rigidbody2D _rb;
-        private Animator _animator;
+        public Animator animator;
         private SpriteRenderer _spriteRenderer;
         private bool _isInvincible = false;
         private float _invincibilityTimer = 0f;
@@ -31,17 +31,19 @@ namespace sea_survival.Scripts.Players
 
         [SerializeField] public GameObject area;
 
+        public Vector2 Direction => _spriteRenderer.flipX ? Vector2.left : Vector2.right;
+
         protected override void Awake()
         {
             base.Awake();
             _rb = GetComponent<Rigidbody2D>();
-            _animator = GetComponent<Animator>();
+            animator = GetComponentInChildren<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         public void SetAnimation(AnimState state, bool active)
         {
-            _animator.SetBool(state.ToString(), active);
+            animator.SetBool(state.ToString(), active);
         }
 
         private void Update()
@@ -119,7 +121,7 @@ namespace sea_survival.Scripts.Players
             SetAnimation(AnimState.IsFalling, false);
             SetAnimation(AnimState.IsIdle, false);
             SetAnimation(AnimState.IsMoving, false);
-            _animator.SetTrigger("Death");
+            animator.SetTrigger("Death");
             StageManager.Ins.GameOver();
         }
     }

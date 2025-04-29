@@ -8,12 +8,11 @@ namespace sea_survival.Scripts.StageSystem
 {
     public class BattleStage : StageState
     {
-        [Header("스테이지 설정")] [SerializeField] private float stageTime = 60f; // 전투 단계 시간
+        [Header("스테이지 설정")][SerializeField] private float stageTime = 60f; // 전투 단계 시간
 
-        [Header("포탈 설정")] [SerializeField] private float portalSpawnTime = 50f; // 포탈이 소환되는 시간 (스테이지 종료 전)
+        [Header("포탈 설정")][SerializeField] private float portalSpawnTime = 50f; // 포탈이 소환되는 시간 (스테이지 종료 전)
 
-        [Header("UI 설정")] [SerializeField] private Text timerText; // 남은 시간 표시할 텍스트
-        [SerializeField] private string timerFormat = "{0:00}:{1:00}"; // 타이머 형식 (분:초)
+        [Header("UI 설정")][SerializeField] private Text timerText; // 남은 시간 표시할 텍스트
         [SerializeField] private Text stageText; // 스테이지 레벨 표시할 텍스트
         [SerializeField] private string stageFormat = "스테이지 {0}"; // 스테이지 표시 형식
 
@@ -51,9 +50,6 @@ namespace sea_survival.Scripts.StageSystem
             Debug.Log($"전투 단계 시작: 스테이지 {StageManager.CurrentStageLv}");
 
 
-            StageManager.DestroyPortal();
-
-
             // 적 스폰 설정
             SetupEnemiesForCurrentStage();
 
@@ -62,19 +58,9 @@ namespace sea_survival.Scripts.StageSystem
             //보스일경우 시간초 없음
             if (StageManager.CurrentStageLv == 5)
             {
-                UpdateTimerUI(0);
-                return;
+                Portal.Ins.gameObject.SetActive(false);
             }
 
-            UpdateTimerUI(stageTime);
-
-
-            if (_stageTimerCoroutine != null)
-            {
-                StopCoroutine(_stageTimerCoroutine);
-            }
-
-            _stageTimerCoroutine = StartCoroutine(StageDurationTimer());
         }
 
         // 상태 종료시 호출
@@ -114,19 +100,6 @@ namespace sea_survival.Scripts.StageSystem
         // 특정 적 타입 활성화 (외부에서 접근 가능하도록 public으로 변경)
 
 
-        // 타이머 UI 업데이트 함수
-        private void UpdateTimerUI(float timeRemaining)
-        {
-            if (timerText != null)
-            {
-                // 시간을 분:초 형식으로 변환
-                int minutes = Mathf.FloorToInt(timeRemaining / 60f);
-                int seconds = Mathf.FloorToInt(timeRemaining % 60f);
-
-                // UI 텍스트 업데이트
-                timerText.text = string.Format(timerFormat, minutes, seconds);
-            }
-        }
 
         // 스테이지 레벨 UI 업데이트 함수
         private void UpdateStageUI()
@@ -134,66 +107,12 @@ namespace sea_survival.Scripts.StageSystem
             stageText.text = string.Format(stageFormat, StageManager.CurrentStageLv);
         }
 
-        // 스테이지 타이머 코루틴
-        private IEnumerator StageDurationTimer()
-        {
-            float remainingTime = stageTime;
-            bool portalSpawned = false;
-
-            while (remainingTime > 0)
-            {
-                remainingTime -= Time.deltaTime;
-
-                // UI에 남은 시간 표시
-                UpdateTimerUI(remainingTime);
-
-                // 포탈 소환 시간이 되었고 아직 소환되지 않았다면 포탈 소환
-                if (remainingTime <= portalSpawnTime && !portalSpawned && Player != null)
-                {
-                    SpawnPortalNearPlayer();
-                    portalSpawned = true;
-                }
-
-                yield return null;
-            }
-
-            // 타이머가 0에 도달하면 0:00으로 표시
-            UpdateTimerUI(0);
-
-            // 스테이지 시간이 끝나면 자동으로 다음 단계로 전환
-            Debug.Log("전투 단계 시간 종료");
-
-            // 플레이어가 포탈에 들어가지 않았다면 강제로 휴식 단계로 전환
-            if (!portalSpawned)
-            {
-                SpawnPortalNearPlayer();
-            }
-        }
-
-        // 플레이어 주변에 포탈 소환
-        public void SpawnPortalNearPlayer()
-        {
-            if (Player != null)
-            {
-                // 플레이어 위치에서 약간 떨어진 곳에 포탈 생성
-                Vector3 portalPosition = Player.transform.position + new Vector3(2f, 0f, 0f);
-                StageManager.SpawnPortal(portalPosition);
-                Debug.Log("포탈 소환됨");
-            }
-        }
-
-        // 휴식 단계로 전환하는 함수
-        private void TransitionToRestStage()
-        {
-            // 휴식 단계로 전환
-            StageManager.StartRestStage();
-        }
 
         // 포탈 진입 감지 (콜라이더 트리거에서 호출)
         public void OnPlayerEnterPortal()
         {
             // 포탈 진입 시 즉시 휴식 단계로 전환
-            TransitionToRestStage();
+            StageManager.StartRestStage();
         }
     }
 }

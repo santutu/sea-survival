@@ -15,11 +15,10 @@ namespace sea_survival.Scripts.StageSystem
         public override void OnEnter()
         {
             base.OnEnter();
+            
             Debug.Log($"휴식 단계 진입: 스테이지 {StageManager.CurrentStageLv}");
 
-            // 포탈 제거
-            StageManager.DestroyPortal();
-            Time.timeScale = 0;
+          
 
             // 체력 회복 코루틴 시작
             if (_healCoroutine != null)

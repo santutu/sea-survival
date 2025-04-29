@@ -26,8 +26,11 @@ namespace sea_survival.Scripts
         private Coroutine _cinematicCoroutine;
 
 
+        private Vector3 originalCameraPositon;
+
         public void StartCinematic()
         {
+            originalCameraPositon = Camera.main.transform.position;
             if (_cinematicCoroutine != null)
             {
                 StopCoroutine(_cinematicCoroutine);
@@ -38,6 +41,7 @@ namespace sea_survival.Scripts
 
         private IEnumerator PlayCinematicSequence()
         {
+            Player.Ins.animator.enabled = false;
             Player.Ins.gameObject.SetActive(false);
             Player.Ins.area.SetActive(false);
             Player.Ins.enabled = false;
@@ -133,6 +137,10 @@ namespace sea_survival.Scripts
             WeaponManager.Ins.gameObject.SetActive(true);
             CameraController.Ins.enabled = true;
             Player.Ins.area.SetActive(true);
+            Camera.main.transform.position = originalCameraPositon;
+            Player.Ins.animator.enabled = true;
+            StageManager.Ins.gameObject.SetActive(true
+            );
         }
     }
 }

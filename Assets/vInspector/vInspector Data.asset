@@ -20,3 +20,10 @@ MonoBehaviour:
     isAsset: 0
     _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - _obj: {fileID: 0}
+    globalId:
+      globalObjectIdString: GlobalObjectId_V1-2-86419ef7017e7f740a58dc0ed2cbd98f-8851147444581356356-0
+    isSceneGameObject: 1
+    isAsset: 0
+    _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null

@@ -14,10 +14,10 @@ namespace sea_survival.Scripts.StageSystem
         [SerializeField] private GameObject nextStageButton;
         [SerializeField] private GameObject gameOverPanel;
         [SerializeField] private GameObject victoryPanel;
-        [Header("스테이지 상태")] [SerializeField] private BattleStage battleStage;
+        [Header("스테이지 상태")][SerializeField] private BattleStage battleStage;
         [SerializeField] private RestStage restStage;
 
-        [Header("포탈")] [SerializeField] private GameObject portalPrefab;
+        [Header("포탈")][SerializeField] private GameObject portalPrefab;
 
         public int CurrentStageLv => currentStageLv;
         public int MaxStages => maxStages;
@@ -83,13 +83,16 @@ namespace sea_survival.Scripts.StageSystem
         {
             ChangeState(restStage);
             nextStageButton.SetActive(true);
+            Time.timeScale = 0;
         }
+
 
         // 다음 스테이지로 진행 버튼 클릭 시
         public void StartNextStage()
         {
             GameManager.Ins.ClearAllEnemiesAndExp();
 
+            Player.Ins.transform.position = Portal.Ins.startPoint.transform.position;
             // 다음 스테이지 버튼 비활성화
             if (nextStageButton != null)
             {
@@ -125,14 +128,6 @@ namespace sea_survival.Scripts.StageSystem
         }
 
         // 포탈 제거
-        public void DestroyPortal()
-        {
-            if (_currentPortal != null)
-            {
-                Destroy(_currentPortal);
-                _currentPortal = null;
-            }
-        }
 
         // 게임 오버 처리
         public void GameOver()
