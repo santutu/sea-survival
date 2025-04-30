@@ -1,4 +1,18 @@
-﻿{
-  "name": "Santutu.Modules.MultiScenes.Editor",
-  "references":[ "GUID:102c677396115c9458a3fafa0b108206" ]
+{
+    "name": "Santutu.Modules.MultiScenes.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:102c677396115c9458a3fafa0b108206"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

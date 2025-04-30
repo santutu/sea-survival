@@ -321,7 +321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8386467566235229016, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
       propertyPath: maxHealth
-      value: 300
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 8386467566235229016, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
       propertyPath: moveSpeed
@@ -416,9 +416,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c02a67608044ecdab51ae399e8b11b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
   hpbarImage: {fileID: 4557608956963314207}
   angryGageImage: {fileID: 3465516286444640599}
   angryGage: 0
