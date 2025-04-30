@@ -112,9 +112,6 @@ namespace sea_survival.Scripts.Enemies
                     collider.radius = 0.3f;
                 }
 
-                // 필요하다면 레이어와 태그 설정
-                missile.layer = LayerMask.NameToLayer("EnemyProjectile");
-                missile.tag = "EnemyProjectile";
 
                 // 미사일 초기화
                 bossMissile.Initialize(missileDamage, direction, missileSpeed, missileLifetime);

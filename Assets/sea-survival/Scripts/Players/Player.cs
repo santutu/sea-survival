@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using sea_survival.Scripts.Contracts;
 using sea_survival.Scripts.StageSystem;
+using Sirenix.OdinInspector;
 
 namespace sea_survival.Scripts.Players
 {
@@ -13,7 +14,7 @@ namespace sea_survival.Scripts.Players
         [SerializeField] public float breathingMoveSpeedMultiplier = 0.5f; // 숨쉬기 모드에서의 이동속도 배율
 
         public float speedmultiplyModifier = 1f;
-      
+
 
         public float CurrentMoveSpeed => moveSpeed * speedmultiplyModifier;
 
@@ -23,11 +24,10 @@ namespace sea_survival.Scripts.Players
         [SerializeField] public float HpPercent => hp / maxHp;
         [SerializeField] public Image healthBarImage;
 
-        [Header("피격 효과")][SerializeField] private GameObject hitEffectPrefab;
+        [Header("피격 효과")] [SerializeField] private GameObject hitEffectPrefab;
         [SerializeField] private float invincibilityTime = 0.5f;
 
-        [Header("산소 시스템")]
-        [SerializeField] private float maxOxygen = 100f;
+        [Header("산소 시스템")] [SerializeField] private float maxOxygen = 100f;
         [SerializeField] private float currentOxygen;
         [SerializeField] private float oxygenDecreaseRate = 10f; // 초당 감소량
         [SerializeField] private float oxygenIncreaseRate = 20f; // 초당 증가량
@@ -35,7 +35,10 @@ namespace sea_survival.Scripts.Players
         [SerializeField] private Image oxygenBarImage;
         [SerializeField] private Transform waterLine1; // 1번 선 위치
         [SerializeField] private Transform waterLine2; // 2번 선 위치
-        [SerializeField] private Rigidbody2D blockUpper; // 2번 선 위치
+        [SerializeField] private Rigidbody2D blockUpper; // 위 콜라이더
+
+        [SerializeField, ReadOnly] public int killedEnemiesCount = 0;
+
 
         private Rigidbody2D _rb;
         public Animator animator;
@@ -47,6 +50,8 @@ namespace sea_survival.Scripts.Players
         public Vector2 MoveDirection { get; private set; }
 
         [SerializeField] public GameObject area;
+
+        [SerializeField] private GameObject spacebarIcon;
 
         public Vector2 Direction => _spriteRenderer.flipX ? Vector2.left : Vector2.right;
 
@@ -75,6 +80,9 @@ namespace sea_survival.Scripts.Players
         {
             // 1번 선 위에 있는지 체크
             canBreath = transform.position.y >= waterLine1.position.y;
+
+            spacebarIcon.gameObject.SetActive(canBreath);
+
 
             // 스페이스바 입력 처리
             if (Input.GetKeyDown(KeyCode.Space) && canBreath)

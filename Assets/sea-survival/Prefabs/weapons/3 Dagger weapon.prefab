@@ -46,10 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 3
   currentLevel: 1
-  baseAttackInterval: 1.5
-  baseDamage: 8
-  daggerSpeed: 8
-  daggerLifetime: 1.5
+  baseAttackInterval: 1.35
+  baseDamage: 50
+  daggerSpeed: 1.5
+  daggerLifetime: 10
   daggerPrefab: {fileID: 3078144847784424177, guid: 0ed9198c9bc15fc44a4431c3bdae9cee, type: 3}
   fireRate: 1.5
   criticalChance: 0

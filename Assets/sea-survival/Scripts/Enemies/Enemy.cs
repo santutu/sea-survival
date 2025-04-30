@@ -111,6 +111,7 @@ namespace sea_survival.Scripts.Enemies
         {
             // 경험치 드롭
             DropExp();
+            Player.Ins.killedEnemiesCount++;
 
             // 여기에 추가적인 죽었을 때 로직 (예: 애니메이션, 소리 등)
 

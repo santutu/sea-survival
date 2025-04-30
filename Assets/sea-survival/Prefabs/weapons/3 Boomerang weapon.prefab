@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 4
   currentLevel: 1
-  baseAttackInterval: 1.5
+  baseAttackInterval: 1.35
   baseDamage: 12
   boomerangSpeed: 6
   maxDistance: 5

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b6558c70e719040a1ac27d4a83b9bd, type: 3}
   m_Name: 3 dagger card
   m_EditorClassIdentifier: 
-  cardName: "\uB2E8\uAC80"
+  cardName: "\uCD1D"
   description: 
-  cardImage: {fileID: 21300000, guid: 1ff1175d56df9eb4f8cfa0ba429d9254, type: 3}
+  cardImage: {fileID: -6628414004274166170, guid: 94a4450b3af28e94cb967320c59514bf, type: 3}
   cardType: 0
   weaponType: 3
   statType: 0

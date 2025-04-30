@@ -8,6 +8,7 @@ using sea_survival.Assets.sea_survival.Scripts.Enemies;
 using sea_survival.Scripts.Enemies;
 using sea_survival.Scripts.Players;
 using sea_survival.Scripts.StageSystem;
+using sea_survival.Scripts.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -43,7 +44,8 @@ namespace sea_survival.Scripts
         {
             StageManager.Ins.gameObject.SetActive(false);
             WaterCurrentManager.Ins.gameObject.SetActive(false);
-            FallingCinematicManager.Ins.StartCinematic();
+            GameManual.Ins.gameObject.SetActive(true);
+            Time.timeScale = 0;
         }
 
 
@@ -67,6 +69,7 @@ namespace sea_survival.Scripts
                 portal.gameObject.DestroySelf();
             }
         }
+
         public void ClearAllEnemiesAndExp()
         {
             ClearAllEnemies();

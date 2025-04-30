@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 100e7e6c37887304790858871dd50d96
+guid: 1f08ea8bf6910ae4683c5202d7246f9e
 DefaultImporter:
   externalObjects: {}
   userData: 
@@ -7,8 +7,8 @@ DefaultImporter:
   assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
-  productId: 298433
-  packageName: Rectangle World Tiles - Free
-  packageVersion: 1.0
-  assetPath: Assets/Rectangle World Tiles - Free/Scenes/Demo.unity
-  uploadId: 698260
+  productId: 287096
+  packageName: Gun Icons Package
+  packageVersion: 1.0.0
+  assetPath: Assets/vendors/Rectangle World Tiles - Free/Scenes/Demo.unity
+  uploadId: 674624

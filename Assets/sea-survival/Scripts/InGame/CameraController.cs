@@ -7,16 +7,17 @@ namespace sea_survival.Scripts
 {
     public class CameraController : SingletonMonoBehaviour<CameraController>
     {
-
         float offsetX;
 
         protected override void Awake()
         {
             base.Awake();
-            offsetX = Player.Ins.transform.position.x - transform.position.x;
-
         }
 
+        private void Start()
+        {
+            offsetX = Player.Ins.transform.position.x - transform.position.x;
+        }
 
 
         private void LateUpdate()

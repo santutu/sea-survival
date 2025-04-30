@@ -14,10 +14,14 @@ namespace sea_survival.Scripts.StageSystem
         [SerializeField] private GameObject nextStageButton;
         [SerializeField] private GameObject gameOverPanel;
         [SerializeField] private GameObject victoryPanel;
-        [Header("스테이지 상태")][SerializeField] private BattleStageState battleStage;
+        [Header("스테이지 상태")] [SerializeField] private BattleStageState battleStage;
         [SerializeField] private RestState restStage;
 
-        [Header("포탈")][SerializeField] private GameObject portalPrefab;
+        [Header("포탈")] [SerializeField] private GameObject portalPrefab;
+
+        [SerializeField] private Text scoreText1;
+        [SerializeField] private Text scoreText2;
+        [SerializeField] private Text currentScoreText;
 
         public int CurrentStageLv => currentStageLv;
         public int MaxStages => maxStages;
@@ -83,6 +87,8 @@ namespace sea_survival.Scripts.StageSystem
         {
             ChangeState(restStage);
             nextStageButton.SetActive(true);
+            
+            currentScoreText.text  = $"Current  Score: {Player.Ins.killedEnemiesCount}";
             Time.timeScale = 0;
         }
 
@@ -137,6 +143,9 @@ namespace sea_survival.Scripts.StageSystem
             WeaponManager.Ins.gameObject.SetActive(false);
             PlayerLevelSystem.Ins.enabled = false;
 
+            scoreText1.text = $"Score: {Player.Ins.killedEnemiesCount}";
+            scoreText2.text = $"Score: {Player.Ins.killedEnemiesCount}";
+
             // 현재 스테이지 종료
             if (_currentState != null)
             {
@@ -159,6 +168,9 @@ namespace sea_survival.Scripts.StageSystem
                 _currentState.OnExit();
                 _currentState = null;
             }
+
+            scoreText1.text = $"Score: {Player.Ins.killedEnemiesCount}";
+            scoreText2.text = $"Score: {Player.Ins.killedEnemiesCount}";
 
             GameManager.Ins.ClearAllEnemies();
             EnemyAllSpawners.Ins.gameObject.SetActive(false);

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 2
   currentLevel: 1
-  baseAttackInterval: 1.5
+  baseAttackInterval: 1.35
   baseDamage: 15
   missileSpeed: 5
   missileLifetime: 3
