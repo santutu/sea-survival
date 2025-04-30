@@ -48,7 +48,7 @@ MonoBehaviour:
   currentLevel: 1
   baseAttackInterval: 1.5
   baseDamage: 15
-  orbRadius: 2
+  orbRadius: 1
   rotationSpeed: 90
   orbPrefab: {fileID: 4812827388848763988, guid: 2dd860534ef19d8489422337056ad1c5, type: 3}
   chainEffectPrefab: {fileID: 3820985015526018320, guid: 28de5490e1719e34e96168cbaa3e3e29, type: 3}
