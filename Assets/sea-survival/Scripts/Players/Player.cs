@@ -59,6 +59,11 @@ namespace sea_survival.Scripts.Players
         private bool isBreathing = false;
         private bool canBreath = false;
 
+        // 산소 시스템 접근용 프로퍼티
+        public float MaxOxygen => maxOxygen;
+        public float CurrentOxygen => currentOxygen;
+        public void SetCurrentOxygen(float value) => currentOxygen = Mathf.Clamp(value, 0f, maxOxygen);
+
         protected override void Awake()
         {
             base.Awake();

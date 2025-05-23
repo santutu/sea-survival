@@ -30,7 +30,7 @@ namespace sea_survival.Scripts.Enemies
         [SerializeField] private GameObject diveEffect; // 다이브 이펙트
         
         private Rigidbody2D _rb;
-        private SpriteRenderer _spriteRenderer;
+        public SpriteRenderer spriteRenderer;
         private Vector3 _startPosition;
         private Vector3 _targetPosition;
         private bool _isDiving = false;
@@ -53,7 +53,6 @@ namespace sea_survival.Scripts.Enemies
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
             _player = Player.Ins;
         }
         
@@ -112,7 +111,7 @@ namespace sea_survival.Scripts.Enemies
             // 스프라이트 방향 업데이트
             if (_flyDirection != 0)
             {
-                _spriteRenderer.flipX = _flyDirection < 0;
+                spriteRenderer.flipX = _flyDirection < 0;
             }
         }
         
@@ -253,8 +252,8 @@ namespace sea_survival.Scripts.Enemies
         
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            // 다이브 중이거나 돌아가는 중일 때만 충돌 처리
-            if (_currentState != BirdState.Diving && _currentState != BirdState.Returning)
+            // 다이브 중일 때만 충돌 처리 (올라올 때는 데미지 없음)
+            if (_currentState != BirdState.Diving)
                 return;
             
             // 플레이어와 충돌

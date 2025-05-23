@@ -87,9 +87,12 @@ namespace sea_survival.Scripts.Players
                 return false; // 게임오버
             }
             
-            // 하트를 잃었을 때 HP 회복 및 무적 시간 부여
+            // 하트를 잃었을 때 HP 및 산소 회복, 무적 시간 부여
             _player.hp = _player.maxHp;
+            _player.SetCurrentOxygen(_player.MaxOxygen); // 산소도 풀로 회복
             _player.StartInvincibility(invincibilityDurationOnHeartLoss);
+            
+            Debug.Log("하트를 잃었습니다! HP와 산소가 회복되었습니다.");
             
             return true; // 살아있음
         }

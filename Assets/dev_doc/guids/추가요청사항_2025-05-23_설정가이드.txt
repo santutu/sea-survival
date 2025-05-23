@@ -6,12 +6,18 @@
 1. Player 오브젝트에 HeartSystem 컴포넌트 추가
 2. HeartSystem 설정:
    - Max Hearts: 3
-   - Invincibility Duration On Heart Loss: 3초
+   - Invincibility Duration On Heart Loss: 3초 (하트 잃을 때 무적 시간)
    - Heart Container Top Right: 스크린 오른쪽 위 UI 컨테이너 Transform
    - Heart Container Bottom: 캐릭터 밑 UI 컨테이너 Transform
    - Heart Prefab: 하트 UI 프리팹 (Image 컴포넌트 포함)
    - Full Heart Sprite: 가득찬 하트 스프라이트
    - Empty Heart Sprite: 빈 하트 스프라이트
+
+**하트 시스템 기능**:
+- HP=0이 되면 하트 1개 소모
+- 하트 소모 시 HP와 산소 모두 풀로 회복
+- 무적 시간 부여 (기본 3초)
+- 스테이지 진입마다 하트 1개씩 회복
 
 ### UI 설정:
 1. Canvas 하위에 하트 컨테이너 생성:
@@ -48,6 +54,11 @@
    - Spawn Interval: 10초
 
 **참고**: 중립새는 항상 플레이어의 x 위치를 기준으로 설정된 Min X와 Max X 범위 내에서만 날아다닙니다. 플레이어가 이동하면 새의 비행 범위도 함께 따라 이동합니다. Min X는 음수값으로 설정하여 플레이어 왼쪽 범위를, Max X는 양수값으로 설정하여 플레이어 오른쪽 범위를 지정합니다.
+
+**중립새 동작**:
+- 다이브할 때만 데미지 적용 (아래로 내려갈 때)
+- 올라올 때는 데미지 없음 (위로 올라갈 때)
+- 플레이어와 몬스터 모두에게 피해 가능
 
 ### 디버깅 방법:
 - Inspector에서 "상태 정보 출력" 버튼으로 새의 현재 상태 확인
