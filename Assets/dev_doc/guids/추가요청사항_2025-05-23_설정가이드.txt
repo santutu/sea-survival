@@ -54,27 +54,46 @@
 - "범위 내로 강제 이동" 버튼으로 새를 범위 내로 이동
 - Console에서 새의 초기화 로그 확인
 
-## 3. 미니맵 시스템 설정
+## 3. 미니맵 시스템 설정 (RenderTexture 방식)
+
+### 미니맵 카메라 설정:
+1. 빈 GameObject에 MiniMapSystem 컴포넌트 추가
+2. Inspector에서 "미니맵 카메라 생성" 버튼 클릭 (자동으로 미니맵 전용 카메라 생성)
+3. 카메라 설정:
+   - Camera Height: 20 (카메라가 플레이어 위 높이)
+   - Orthographic Size: 10 (확대/축소 수준)
+   - Mini Map Layers: 미니맵에 표시할 레이어 선택
+   - Follow Player: true (플레이어 따라가기)
+   - Follow Speed: 5 (따라가기 속도, 0이면 즉시)
 
 ### UI 설정:
-1. Canvas 하위에 미니맵 UI 생성:
+1. Canvas 하위에 RawImage 생성:
    - "MiniMap" GameObject (앵커: 왼쪽 위)
-   - 하위에 "Background" (Image 컴포넌트)
-   - 하위에 "PlayerIcon" (Image 컴포넌트, 빨간색)
-   - 하위에 "PortalIcon" (Image 컴포넌트, 노란색, 비활성)
+   - RawImage 컴포넌트 추가
+2. MiniMapSystem 설정:
+   - Mini Map Display: 위에서 만든 RawImage
+   - Mini Map Size: 150 (UI 크기)
+   - Mini Map Position: (-75, 75) (화면 좌상단 기준)
 
-### MiniMapSystem 설정:
-1. 빈 GameObject에 MiniMapSystem 컴포넌트 추가
-2. 설정:
-   - Mini Map Container: 미니맵 RectTransform
-   - Mini Map Background: 배경 Image
-   - Player Icon: 플레이어 아이콘 RectTransform
-   - Portal Icon: 포탈 아이콘 RectTransform
-   - World Min/Max X/Y: 월드 경계 설정
-   - Mini Map Width/Height: 150, 100
+### RenderTexture 설정:
+1. Inspector에서 "RenderTexture 생성" 버튼 클릭
+2. 또는 수동으로:
+   - Project 창에서 RenderTexture 생성 (256x256 권장)
+   - MiniMapSystem의 Render Texture 필드에 할당
 
-### 포탈 태그 설정:
-1. Portal 오브젝트에 "Portal" 태그 추가
+### 레이어 설정 (선택사항):
+1. 미니맵 전용 레이어 생성 ("MiniMapOnly" 등)
+2. 미니맵에만 표시할 오브젝트들을 해당 레이어에 배치
+3. Mini Map Layers에서 표시할 레이어들 선택
+
+### 테스트:
+- Inspector에서 "미니맵 테스트" 버튼으로 정상 설정 확인
+- 게임 실행 시 실제 월드가 미니맵에 표시되는지 확인
+
+**장점**: 
+- 실제 게임 월드의 모습을 그대로 표시
+- 지형, 장애물, 적들이 실시간으로 보임
+- 설정이 간단하고 직관적
 
 ## 4. 몬스터 공격 모션 설정
 
