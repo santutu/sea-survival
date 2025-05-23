@@ -3,6 +3,11 @@ description: 유니티 게임 개발 기획서
 globs: 
 alwaysApply: false
 ---
+---
+description: 유니티 게임 개발 기획서
+globs: 
+alwaysApply: false
+---
 # 개요
 
 최대한 간단하게 뱀서 게임의 핵심요소를 기획한다.
@@ -137,7 +142,7 @@ idle -> 수영 Idle
 플레이어 hp 가 다 닳으면 하트 한개 줄어들고 x초만큼 무적되면서 hp 꽉참.
 해당 하트 0개 인상태에서 hp 0되면 게임오버
 
-다음 스테이지마자 하트씩 회복
+다음 스테이지마다 하트씩 회복
 
 1. 중립새 추가
 
