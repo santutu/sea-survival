@@ -112,6 +112,9 @@ MonoBehaviour:
   knockbackForce: 0.2
   attackCooldown: 0.5
   knockbackDuration: 0.5
+  availableAttacks: 00000000
+  specialAttackChance: 0.3
+  attackDecisionDistance: 5
   hitEffectPrefab: {fileID: 0}
 --- !u!50 &2999627559973655795
 Rigidbody2D:

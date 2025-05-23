@@ -10,6 +10,7 @@ namespace sea_survival.Scripts.StageSystem
 
         private Player Player => Player.Ins;
         private Coroutine _healCoroutine;
+        private bool _heartRecovered = false;
 
         // 상태 진입시 호출
         public override void OnEnter()
@@ -18,7 +19,17 @@ namespace sea_survival.Scripts.StageSystem
             
             Debug.Log($"휴식 단계 진입: 스테이지 {StageManager.CurrentStageLv}");
 
-          
+            // 다음 스테이지마다 하트 회복
+            if (!_heartRecovered && Player != null)
+            {
+                HeartSystem heartSystem = Player.GetHeartSystem();
+                if (heartSystem != null)
+                {
+                    heartSystem.RecoverHeart();
+                    _heartRecovered = true;
+                    Debug.Log("하트 1개 회복!");
+                }
+            }
 
             // 체력 회복 코루틴 시작
             if (_healCoroutine != null)
@@ -38,6 +49,9 @@ namespace sea_survival.Scripts.StageSystem
                 StopCoroutine(_healCoroutine);
                 _healCoroutine = null;
             }
+
+            // 하트 회복 플래그 리셋
+            _heartRecovered = false;
 
             Debug.Log("휴식 단계 종료");
             Time.timeScale = 1;

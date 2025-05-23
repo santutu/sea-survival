@@ -4,6 +4,8 @@ using sea_survival.Scripts.Contracts;
 using sea_survival.Scripts.Players;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 namespace sea_survival.Scripts.Enemies
 {
@@ -24,6 +26,11 @@ namespace sea_survival.Scripts.Enemies
         [SerializeField] private float attackCooldown = 0.5f; // 공격 쿨다운 시간
         [SerializeField] private float knockbackDuration = 0.5f; // 넉백 지속 시간
 
+        [Header("공격 시스템")]
+        [SerializeField] private List<AttackType> availableAttacks = new List<AttackType>(); // 사용 가능한 공격 타입
+        [SerializeField] private float specialAttackChance = 0.3f; // 특수 공격 확률 (0.0 ~ 1.0)
+        [SerializeField] private float attackDecisionDistance = 5f; // 공격 결정 거리
+
         private Player Player => Player.Ins;
         private Rigidbody2D _rb;
         private SpriteRenderer _spriteRenderer;
@@ -32,13 +39,43 @@ namespace sea_survival.Scripts.Enemies
         private bool _isKnockedBack = false;
         private float _knockbackTimer = 0f;
 
+        // 공격 모듈들
+        private Dictionary<AttackType, IEnemyAttack> _attackModules = new Dictionary<AttackType, IEnemyAttack>();
+
         [SerializeField] public GameObject hitEffectPrefab;
+
+        [System.Serializable]
+        public enum AttackType
+        {
+            Melee,      // 기본 근접 공격 (접촉)
+            Rush,       // 돌진 공격
+            Bubble      // 거품 원거리 공격
+        }
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             currentHealth = maxHealth;
+            
+            // 공격 모듈들 초기화
+            InitializeAttackModules();
+        }
+
+        private void InitializeAttackModules()
+        {
+            // 각 공격 타입에 해당하는 컴포넌트 찾기
+            var rushAttack = GetComponent<Attacks.EnemyRushAttack>();
+            if (rushAttack != null)
+            {
+                _attackModules[AttackType.Rush] = rushAttack;
+            }
+
+            var bubbleAttack = GetComponent<Attacks.EnemyBubbleAttack>();
+            if (bubbleAttack != null)
+            {
+                _attackModules[AttackType.Bubble] = bubbleAttack;
+            }
         }
 
         private void Update()
@@ -47,6 +84,7 @@ namespace sea_survival.Scripts.Enemies
 
             Vector2 direction = Player.transform.position - transform.position;
             direction.Normalize();
+            float distanceToPlayer = Vector2.Distance(transform.position, Player.transform.position);
 
             if (direction.x != 0)
             {
@@ -72,6 +110,52 @@ namespace sea_survival.Scripts.Enemies
                     _isKnockedBack = false;
                 }
             }
+
+            // 공격 결정 로직
+            if (_canAttack && distanceToPlayer <= attackDecisionDistance)
+            {
+                TrySpecialAttack();
+            }
+        }
+
+        private void TrySpecialAttack()
+        {
+            // 특수 공격 확률 체크
+            if (Random.value > specialAttackChance)
+                return;
+
+            // 사용 가능한 공격 중에서 랜덤 선택
+            List<AttackType> usableAttacks = new List<AttackType>();
+
+            foreach (var attackType in availableAttacks)
+            {
+                if (_attackModules.TryGetValue(attackType, out IEnemyAttack attackModule))
+                {
+                    float distanceToPlayer = Vector2.Distance(transform.position, Player.transform.position);
+                    if (attackModule.CanAttack && distanceToPlayer <= attackModule.AttackRange)
+                    {
+                        usableAttacks.Add(attackType);
+                    }
+                }
+            }
+
+            if (usableAttacks.Count > 0)
+            {
+                AttackType selectedAttack = usableAttacks[Random.Range(0, usableAttacks.Count)];
+                ExecuteAttack(selectedAttack);
+            }
+        }
+
+        private void ExecuteAttack(AttackType attackType)
+        {
+            if (_attackModules.TryGetValue(attackType, out IEnemyAttack attackModule))
+            {
+                attackModule.Attack(Player.transform);
+                _canAttack = false;
+                _attackTimer = attackCooldown;
+                
+                Debug.Log($"{gameObject.name}이(가) {attackType} 공격을 사용했습니다!");
+            }
         }
 
         private void FixedUpdate()
@@ -80,6 +164,24 @@ namespace sea_survival.Scripts.Enemies
 
             // 넉백 상태일 때는 플레이어 추적을 중단
             if (_isKnockedBack) return;
+
+            // 공격 중일 때는 이동하지 않음 (돌진 공격 제외)
+            bool isAttacking = false;
+            foreach (var attackModule in _attackModules.Values)
+            {
+                if (attackModule is Attacks.EnemyRushAttack rushAttack && !rushAttack.CanAttack)
+                {
+                    // 돌진 공격 중에는 자체적으로 이동하므로 일반 이동 중단
+                    return;
+                }
+                if (attackModule is Attacks.EnemyBubbleAttack bubbleAttack && !bubbleAttack.CanAttack)
+                {
+                    isAttacking = true;
+                    break;
+                }
+            }
+
+            if (isAttacking) return;
 
             // 플레이어 쪽으로 이동
             Vector2 direction = Player.transform.position - transform.position;
@@ -149,14 +251,14 @@ namespace sea_survival.Scripts.Enemies
             }
         }
 
-        // 플레이어와의 충돌 처리
+        // 플레이어와의 충돌 처리 (기본 근접 공격)
         private void OnTriggerEnter2D(Collider2D collision)
         {
             Player player = collision.gameObject.GetComponent<Player>();
             if (player != null)
             {
-                // 플레이어 데미지 처리 (쿨타임에 따라 적용)
-                if (_canAttack)
+                // 기본 근접 공격만 충돌로 처리 (다른 공격들은 각자 모듈에서 처리)
+                if (availableAttacks.Contains(AttackType.Melee) && _canAttack)
                 {
                     ApplyDamageToPlayer(player);
 
@@ -188,6 +290,45 @@ namespace sea_survival.Scripts.Enemies
             // 넉백 상태 설정
             _isKnockedBack = true;
             _knockbackTimer = knockbackDuration;
+        }
+
+        [Button("돌진 공격 추가")]
+        public void AddRushAttack()
+        {
+            if (!availableAttacks.Contains(AttackType.Rush))
+            {
+                availableAttacks.Add(AttackType.Rush);
+                
+                if (GetComponent<Attacks.EnemyRushAttack>() == null)
+                {
+                    gameObject.AddComponent<Attacks.EnemyRushAttack>();
+                }
+                
+                InitializeAttackModules();
+            }
+        }
+
+        [Button("거품 공격 추가")]
+        public void AddBubbleAttack()
+        {
+            if (!availableAttacks.Contains(AttackType.Bubble))
+            {
+                availableAttacks.Add(AttackType.Bubble);
+                
+                if (GetComponent<Attacks.EnemyBubbleAttack>() == null)
+                {
+                    gameObject.AddComponent<Attacks.EnemyBubbleAttack>();
+                }
+                
+                InitializeAttackModules();
+            }
+        }
+
+        [Button("기본 공격만 사용")]
+        public void UseOnlyMeleeAttack()
+        {
+            availableAttacks.Clear();
+            availableAttacks.Add(AttackType.Melee);
         }
     }
 }

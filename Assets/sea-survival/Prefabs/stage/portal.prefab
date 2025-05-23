@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 822678616516932110}
   m_Layer: 0
   m_Name: portal
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4889,6 +4889,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 30
   portalEffect: {fileID: 0}
+  autoEnterTime: 10
+  startPoint: {fileID: 0}
 --- !u!1 &3419003674510413765
 GameObject:
   m_ObjectHideFlags: 0

@@ -45,6 +45,7 @@ namespace sea_survival.Scripts.Players
         private SpriteRenderer _spriteRenderer;
         private bool _isInvincible = false;
         private float _invincibilityTimer = 0f;
+        private HeartSystem _heartSystem;
 
         public Vector2 InputVec { get; private set; }
         public Vector2 MoveDirection { get; private set; }
@@ -64,6 +65,7 @@ namespace sea_survival.Scripts.Players
             _rb = GetComponent<Rigidbody2D>();
             animator = GetComponentInChildren<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _heartSystem = GetComponent<HeartSystem>();
         }
 
         private void Start()
@@ -74,6 +76,12 @@ namespace sea_survival.Scripts.Players
         public void SetAnimation(AnimState state, bool active)
         {
             animator.SetBool(state.ToString(), active);
+        }
+
+        public void StartInvincibility(float duration)
+        {
+            _isInvincible = true;
+            _invincibilityTimer = duration;
         }
 
         private void Update()
@@ -197,6 +205,14 @@ namespace sea_survival.Scripts.Players
 
             if (hp <= 0)
             {
+                // HP가 0이 되면 하트 시스템을 통해 처리
+                if (_heartSystem != null && _heartSystem.TryLoseHeart())
+                {
+                    // 하트를 잃었지만 아직 살아있음 (하트 시스템에서 HP 회복 및 무적 처리)
+                    return;
+                }
+                
+                // 하트가 없거나 하트 시스템이 없으면 죽음
                 Die();
             }
         }
@@ -208,6 +224,14 @@ namespace sea_survival.Scripts.Players
 
             if (hp <= 0)
             {
+                // HP가 0이 되면 하트 시스템을 통해 처리
+                if (_heartSystem != null && _heartSystem.TryLoseHeart())
+                {
+                    // 하트를 잃었지만 아직 살아있음
+                    return;
+                }
+                
+                // 하트가 없거나 하트 시스템이 없으면 죽음
                 Die();
             }
         }
@@ -221,6 +245,12 @@ namespace sea_survival.Scripts.Players
             animator.enabled = false;
             // animator.SetTrigger("Death");
             StageManager.Ins.GameOver();
+        }
+        
+        // 하트 시스템 접근을 위한 공개 메서드
+        public HeartSystem GetHeartSystem()
+        {
+            return _heartSystem;
         }
     }
 }

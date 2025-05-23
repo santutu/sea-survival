@@ -327,6 +327,14 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 0.35
       objectReference: {fileID: 0}
+    - target: {fileID: 8386467566235229016, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
+      propertyPath: availableAttacks.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8386467566235229016, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
+      propertyPath: 'availableAttacks.Array.data[1]'
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9114099093108861061, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.8563577
@@ -393,6 +401,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7537833919993015056, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9104314504494591338}
+    - targetCorrespondingSourceObject: {fileID: 7537833919993015056, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6192636000758879951}
   m_SourcePrefab: {fileID: 100100000, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
 --- !u!4 &649591963589421649 stripped
 Transform:
@@ -463,3 +474,27 @@ CapsuleCollider2D:
   m_Offset: {x: 0.000000016011706, y: -0.00035641916}
   m_Size: {x: 0.46000025, y: 0.28476414}
   m_Direction: 1
+--- !u!114 &6192636000758879951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297922847052818884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ae8c637362a0dd4ca6355b1410f42dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 0.75
+  attackCooldown: 2
+  damage: 20
+  windupTime: 0.25
+  windupDistance: 0.5
+  rushSpeed: 5.75
+  rushDistance: 2.5
+  stunDuration: 0.3
+  warningEffect: {fileID: 0}
+  rushEffect: {fileID: 0}
+  _attackTimer: 0
+  _isAttacking: 0

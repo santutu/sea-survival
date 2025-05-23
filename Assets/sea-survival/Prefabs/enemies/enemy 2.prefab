@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 8926406433705221681, guid: 93ed667bb784326429d0ad4668993f4a, type: 3}
+    - target: {fileID: 4431116644596794521, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
+      propertyPath: bubblePrefab
+      value: 
+      objectReference: {fileID: 323881359988758927, guid: 48577c8166ade4f4486e515193dd2323, type: 3}
     - target: {fileID: 4515210037521453777, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
       value: 0.32
@@ -35,6 +39,14 @@ PrefabInstance:
     - target: {fileID: 8386467566235229016, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
       propertyPath: moveSpeed
       value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8386467566235229016, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
+      propertyPath: availableAttacks.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8386467566235229016, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
+      propertyPath: 'availableAttacks.Array.data[1]'
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9114099093108861061, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
       propertyPath: m_LocalPosition.x
@@ -79,5 +91,39 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7537833919993015056, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2632699155130761998}
   m_SourcePrefab: {fileID: 100100000, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
+--- !u!1 &2297922847052818884 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7537833919993015056, guid: 3571e94614f5a804b9b19b85217f7d98, type: 3}
+  m_PrefabInstance: {fileID: 8608657783908500180}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2632699155130761998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297922847052818884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63859764b0b267f4cb329cb5535d4bdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 4.7
+  attackCooldown: 3
+  damage: 15
+  bubblePrefab: {fileID: 323881359988758927, guid: 48577c8166ade4f4486e515193dd2323, type: 3}
+  projectileSpeed: 1
+  projectileLifetime: 45
+  projectileCount: 1
+  spreadAngle: 15
+  firePoint: {fileID: 0}
+  windupTime: 0.8
+  chargingEffect: {fileID: 0}
+  fireEffect: {fileID: 0}
+  _attackTimer: 0
+  _isAttacking: 0
