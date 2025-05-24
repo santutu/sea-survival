@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ae8c637362a0dd4ca6355b1410f42dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 0.75
+  attackRange: 1
   attackCooldown: 2
   damage: 20
   windupTime: 0.25
