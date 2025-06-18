@@ -37,6 +37,9 @@ namespace sea_survival.Scripts.Players
         [SerializeField] private Transform waterLine2; // 2번 선 위치
         [SerializeField] private Rigidbody2D blockUpper; // 위 콜라이더
 
+        [Header("공기방울 효과")] 
+        [SerializeField] private BubbleEffectManager bubbleEffectManager;
+
         [SerializeField, ReadOnly] public int killedEnemiesCount = 0;
 
 
@@ -63,6 +66,9 @@ namespace sea_survival.Scripts.Players
         public float MaxOxygen => maxOxygen;
         public float CurrentOxygen => currentOxygen;
         public void SetCurrentOxygen(float value) => currentOxygen = Mathf.Clamp(value, 0f, maxOxygen);
+        
+        // 호흡 상태 접근용 프로퍼티
+        public bool IsBreathing => isBreathing;
 
         protected override void Awake()
         {
@@ -71,6 +77,16 @@ namespace sea_survival.Scripts.Players
             animator = GetComponentInChildren<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _heartSystem = GetComponent<HeartSystem>();
+            
+            // 공기방울 효과 매니저 초기화
+            if (bubbleEffectManager == null)
+            {
+                bubbleEffectManager = GetComponent<BubbleEffectManager>();
+                if (bubbleEffectManager == null)
+                {
+                    bubbleEffectManager = gameObject.AddComponent<BubbleEffectManager>();
+                }
+            }
         }
 
         private void Start()
