@@ -140,20 +140,19 @@ namespace sea_survival.Scripts.Players
             Transform footTransform = Random.value > 0.5f ? leftFootTransform : rightFootTransform;
             if (footTransform == null) footTransform = transform;
 
-            // 이동 방향의 반대로 오프셋 적용
-            Vector2 moveDirection = speedDetector.GetMoveDirection();
-            Vector2 oppositeDirection = -moveDirection;
+            // 캐릭터의 sprite 방향 가져오기 (왼쪽 또는 오른쪽만)
+            Vector2 spriteDirection = player.Direction; // Player.cs의 Direction 프로퍼티 사용
 
             // 발생 위치 계산
-            Vector3 spawnPosition = footTransform.position + (Vector3)(oppositeDirection * 0f);
+            Vector3 spawnPosition = footTransform.position;
             spawnPosition += new Vector3(
                 Random.Range(-0.3f, 0.3f), // X축 랜덤
                 Random.Range(-0.2f, 0.2f), // Y축 랜덤
                 0f
             );
 
-            // 초기 속도 (플레이어 이동의 반대 방향으로 설정)
-            Vector2 initialVelocity = oppositeDirection * 1.5f;
+            // 초기 속도 (캐릭터의 sprite 방향 반대로 설정)
+            Vector2 initialVelocity = -spriteDirection * 1.5f;
 
             // 공기방울 생성
             GameObject bubble = Instantiate(bubblePrefab, spawnPosition, Quaternion.identity);
@@ -168,8 +167,8 @@ namespace sea_survival.Scripts.Players
             // 기존 컴포넌트들을 공기방울에 맞게 조정
             SetupBubbleComponents(bubble, config);
 
-            // 컨트롤러 초기화 (플레이어 이동 방향 전달)
-            controller.Initialize(config, spawnPosition, initialVelocity, moveDirection);
+            // 컨트롤러 초기화 (캐릭터의 sprite 방향 반대 전달)
+            controller.Initialize(config, spawnPosition, initialVelocity, -spriteDirection);
         }
 
         private void SetupBubbleComponents(GameObject bubble, BubbleSpeedConfig config)

@@ -18,10 +18,10 @@ namespace sea_survival.Scripts.Players
         private float initialSize;
 
         [SerializeField, ReadOnly]
-        private Vector2 playerMoveDirection; // 플레이어 이동 방향
+        private Vector2 playerSpriteDirection; // 플레이어 sprite 방향
         
         [SerializeField, ReadOnly]
-        private Vector2 oppositeDirection; // 반대 방향 (디버그용)
+        private Vector2 bubbleDirection; // 거품 이동 방향 (디버그용)
 
         private void Awake()
         {
@@ -34,12 +34,12 @@ namespace sea_survival.Scripts.Players
             transform.position = position;
             lifetime = config.lifetime;
             currentLife = 0f;
-            playerMoveDirection = playerDirection;
+            playerSpriteDirection = playerDirection;
 
             // 디버그 로그
-            Debug.Log($"Bubble Initialize - PlayerDirection: {playerDirection}, OppositeDirection: {-playerDirection}");
+            Debug.Log($"Bubble Initialize - PlayerSpriteDirection: {playerDirection}, BubbleDirection: {playerDirection}");
 
-            // 초기 속도 설정 (플레이어 이동의 반대 방향)
+            // 초기 속도 설정 (캐릭터의 sprite 방향으로)
             rb.linearVelocity = initialVelocity + GetRandomVelocity();
 
             // 크기와 색상 설정
@@ -58,11 +58,11 @@ namespace sea_survival.Scripts.Players
                 currentLife += Time.deltaTime;
                 float lifeRatio = currentLife / lifetime;
 
-                // 플레이어 이동의 반대 방향으로 힘 적용
-                oppositeDirection = -playerMoveDirection;
-                if (oppositeDirection.magnitude < 0.1f) // 플레이어가 거의 움직이지 않으면 기본적으로 왼쪽
-                    oppositeDirection = Vector2.left;
-                rb.AddForce(oppositeDirection * oppositeForce * Time.deltaTime, ForceMode2D.Impulse);
+                // 캐릭터의 sprite 방향으로 힘 적용
+                bubbleDirection = playerSpriteDirection;
+                if (bubbleDirection.magnitude < 0.1f) // sprite 방향이 명확하지 않으면 기본적으로 왼쪽
+                    bubbleDirection = Vector2.left;
+                rb.AddForce(bubbleDirection * oppositeForce * Time.deltaTime, ForceMode2D.Impulse);
 
                 // 저항 적용
                 rb.linearVelocity *= (1f - waterResistance * Time.deltaTime);
@@ -107,14 +107,14 @@ namespace sea_survival.Scripts.Players
 
         private Vector2 GetRandomVelocity()
         {
-            // 플레이어 이동 방향의 반대로 편향된 랜덤 속도
-            Vector2 oppositeDirection = -playerMoveDirection;
-            if (oppositeDirection.magnitude < 0.1f) // 플레이어가 거의 움직이지 않으면 기본적으로 왼쪽
-                oppositeDirection = Vector2.left;
+            // 캐릭터의 sprite 방향으로 편향된 랜덤 속도
+            Vector2 spriteDirection = playerSpriteDirection;
+            if (spriteDirection.magnitude < 0.1f) // sprite 방향이 명확하지 않으면 기본적으로 왼쪽
+                spriteDirection = Vector2.left;
 
             return new Vector2(
-                Random.Range(-0.5f, 0.5f) + oppositeDirection.x * 0.3f, // 반대 방향 편향
-                Random.Range(-0.5f, 0.5f) + oppositeDirection.y * 0.2f
+                Random.Range(-0.5f, 0.5f) + spriteDirection.x * 0.3f, // sprite 방향 편향
+                Random.Range(-0.5f, 0.5f) // Y축은 무작위로 유지
             );
         }
     }
