@@ -51,6 +51,32 @@ namespace sea_survival.Scripts.Enemies
                 _spawnCoroutine = null;
             }
         }
+        
+        // 모든 파도 제거 (엔딩 연출용)
+        public void ClearAllWaves()
+        {
+            Wave[] allWaves = FindObjectsOfType<Wave>();
+            int destroyedCount = 0;
+            
+            foreach (var wave in allWaves)
+            {
+                if (wave != null && wave.gameObject != null)
+                {
+                    Destroy(wave.gameObject);
+                    destroyedCount++;
+                }
+            }
+            
+            Debug.Log($"모든 파도 제거 완료 ({destroyedCount}개)");
+        }
+        
+        // 스포너 완전 정지 및 파도 제거
+        public void StopAndClearAll()
+        {
+            StopSpawning();
+            ClearAllWaves();
+            Debug.Log("파도 스포너 정지 및 모든 파도 제거");
+        }
 
         // 파도 스폰 코루틴
         private IEnumerator SpawnWavesRoutine()

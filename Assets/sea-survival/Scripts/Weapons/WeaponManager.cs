@@ -130,5 +130,37 @@ namespace sea_survival.Scripts.Weapons
         {
             return activeWeapons;
         }
+        
+        // 모든 무기 활성화/비활성화
+        public void SetWeaponsEnabled(bool enabled)
+        {
+            foreach (var weaponPair in activeWeapons)
+            {
+                IWeapon weapon = weaponPair.Value;
+                if (weapon != null)
+                {
+                    // IWeapon을 구현하는 MonoBehaviour 컴포넌트의 enabled 상태 변경
+                    if (weapon is MonoBehaviour weaponMono)
+                    {
+                        weaponMono.enabled = enabled;
+                    }
+                }
+            }
+            
+            Debug.Log($"모든 무기 {(enabled ? "활성화" : "비활성화")} 완료");
+        }
+        
+        // 특정 무기 활성화/비활성화
+        public void SetWeaponEnabled(WeaponType weaponType, bool enabled)
+        {
+            if (activeWeapons.TryGetValue(weaponType, out IWeapon weapon))
+            {
+                if (weapon is MonoBehaviour weaponMono)
+                {
+                    weaponMono.enabled = enabled;
+                    Debug.Log($"무기 {weaponType} {(enabled ? "활성화" : "비활성화")}");
+                }
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Santutu.Core.Base.Runtime.Singletons;
 using sea_survival.Scripts.StageSystem;
+using sea_survival.Scripts.InGame;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -123,7 +124,16 @@ namespace sea_survival.Scripts.Enemies
 
         private void OnDestroy()
         {
-            StageManager.Ins.BossDefeated();
+            // 엔딩 시퀀스 시작
+            if (EndingSequenceManager.Ins != null)
+            {
+                EndingSequenceManager.Ins.StartEndingSequence();
+            }
+            else
+            {
+                // EndingSequenceManager가 없다면 기존 방식으로 처리
+                StageManager.Ins.BossDefeated();
+            }
         }
     }
 

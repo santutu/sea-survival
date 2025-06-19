@@ -95,11 +95,41 @@ namespace sea_survival.Scripts.Enemies
         public void ClearAllBirds()
         {
             NeutralBird[] birds = FindObjectsOfType<NeutralBird>();
+            int destroyedCount = 0;
+            
             foreach (var bird in birds)
             {
-                DestroyImmediate(bird.gameObject);
+                if (bird != null && bird.gameObject != null)
+                {
+                    Destroy(bird.gameObject);
+                    destroyedCount++;
+                }
             }
+            
             _currentBirdCount = 0;
+            Debug.Log($"모든 중립새 제거 완료 ({destroyedCount}마리)");
+        }
+        
+        // 스포너 정지 (엔딩 연출용)
+        public void StopSpawning()
+        {
+            enabled = false;
+            Debug.Log("중립새 스포너 정지");
+        }
+        
+        // 스포너 재시작
+        public void StartSpawning()
+        {
+            enabled = true;
+            Debug.Log("중립새 스포너 재시작");
+        }
+        
+        // 스포너 완전 정지 및 새 제거
+        public void StopAndClearAll()
+        {
+            StopSpawning();
+            ClearAllBirds();
+            Debug.Log("새 스포너 정지 및 모든 새 제거");
         }
     }
 } 

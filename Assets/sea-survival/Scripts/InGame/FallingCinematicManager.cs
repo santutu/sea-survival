@@ -47,6 +47,14 @@ namespace sea_survival.Scripts
             Player.Ins.enabled = false;
             CameraController.Ins.enabled = false;
             WeaponManager.Ins.gameObject.SetActive(false);
+            
+            // 거품 효과 비활성화
+            var bubbleEffectManager = Player.Ins.GetComponent<BubbleEffectManager>();
+            if (bubbleEffectManager != null)
+            {
+                bubbleEffectManager.SetBubbleEffectEnabled(false);
+                Debug.Log("시작 연출 - 거품 효과 비활성화");
+            }
 
 
             // 카메라를 해당 포인트로 옮긴다
@@ -139,8 +147,15 @@ namespace sea_survival.Scripts
             Player.Ins.area.SetActive(true);
             Camera.main.transform.position = originalCameraPositon;
             Player.Ins.animator.enabled = true;
-            StageManager.Ins.gameObject.SetActive(true
-            );
+            StageManager.Ins.gameObject.SetActive(true);
+            
+            // 거품 효과 복구
+            var bubbleEffectManager = Player.Ins.GetComponent<BubbleEffectManager>();
+            if (bubbleEffectManager != null)
+            {
+                bubbleEffectManager.SetBubbleEffectEnabled(true);
+                Debug.Log("시작 연출 완료 - 거품 효과 복구");
+            }
         }
     }
 }

@@ -168,5 +168,30 @@ namespace sea_survival.Scripts.CardSystem
 
             return card;
         }
+        
+        // 카드 UI 강제 닫기 (엔딩 연출용)
+        public void ForceCloseCardUI()
+        {
+            if (cardUI != null)
+            {
+                cardUI.CloseCardSelection();
+                Debug.Log("카드 UI 강제 닫기");
+            }
+        }
+        
+        // 카드 시스템 정지
+        public void StopCardSystem()
+        {
+            enabled = false;
+            ForceCloseCardUI();
+            Debug.Log("카드 시스템 정지");
+        }
+        
+        // 카드 시스템 재시작  
+        public void StartCardSystem()
+        {
+            enabled = true;
+            Debug.Log("카드 시스템 재시작");
+        }
     }
 }

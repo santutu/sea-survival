@@ -273,5 +273,28 @@ namespace sea_survival.Scripts.Players
         {
             return _heartSystem;
         }
+        
+        // 플레이어 강제로 보이게 하기 (엔딩 연출용)
+        public void ForceVisible()
+        {
+            _isInvincible = false;
+            _invincibilityTimer = 0f;
+            if (_spriteRenderer != null)
+            {
+                _spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+            }
+            Debug.Log("플레이어 강제 표시");
+        }
+        
+        // 무적 상태 강제 해제
+        public void ClearInvincibility()
+        {
+            _isInvincible = false;
+            _invincibilityTimer = 0f;
+            if (_spriteRenderer != null)
+            {
+                _spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+            }
+        }
     }
 }

@@ -151,5 +151,19 @@ namespace sea_survival.Scripts.Players
 
             // 플레이어 일부 회복
         }
+        
+        // 레벨 시스템 정지 (엔딩 연출용)
+        public void StopLevelSystem()
+        {
+            enabled = false;
+            Debug.Log("경험치 시스템 정지");
+        }
+        
+        // 레벨 시스템 재시작
+        public void StartLevelSystem()
+        {
+            enabled = true;
+            Debug.Log("경험치 시스템 재시작");
+        }
     }
 }
